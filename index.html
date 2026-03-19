@@ -505,9 +505,7 @@ footer a:hover{color:var(--gray-300)}
     <div class="section-tag fade-up">contact</div>
     <h2 class="section-title fade-up">지금 현장을 켜보세요</h2>
     <p class="section-desc fade-up">간단한 정보만 남겨주세요. 1일 이내 연락드립니다.</p>
-    <form class="contact-form" action="https://formspree.io/f/xqeynzey" method="POST" id="contactForm">
-      <input type="hidden" name="_subject" value="[Fieldon] 새 도입문의">
-      <input type="hidden" name="_next" value="https://fieldon-site.vercel.app?submitted=true">
+    <form class="contact-form" id="contactForm">
       <div class="form-row fade-up">
         <label>이름 *</label>
         <input type="text" name="name" placeholder="홍길동" required>
@@ -529,9 +527,14 @@ footer a:hover{color:var(--gray-300)}
           <option value="11+">11명 이상</option>
         </select>
       </div>
-      <button type="submit" class="form-submit fade-up">도입 문의하기</button>
+      <button type="submit" class="form-submit fade-up" id="submitBtn">도입 문의하기</button>
       <p class="form-note fade-up">영업일 기준 1일 이내 연락드립니다 · 강제 영업 없습니다</p>
     </form>
+    <div id="thankYou" style="display:none;text-align:center;padding:60px 0">
+      <div style="font-size:48px;margin-bottom:16px">✓</div>
+      <h3 style="font-size:20px;font-weight:700;color:white;margin-bottom:8px">문의가 접수되었습니다</h3>
+      <p style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.8">영업일 기준 1일 이내 연락드리겠습니다.<br>감사합니다!</p>
+    </div>
   </div>
 </section>
 
@@ -574,12 +577,35 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-// Form submit - Formspree 사용 (자동 이메일 전송)
-// 제출 완료 후 돌아왔을 때 감사 메시지
-if (window.location.search.includes('submitted=true')) {
-  setTimeout(() => {
-    alert('문의가 접수되었습니다! 영업일 기준 1일 이내 연락드리겠습니다.');
-    window.history.replaceState({}, '', window.location.pathname);
-  }, 500);
-}
+// Form submit - AJAX로 Formspree 전송 (페이지 이동 없음)
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = '전송 중...';
+  btn.disabled = true;
+
+  const formData = new FormData(this);
+  const data = {};
+  formData.forEach((v, k) => { data[k] = v; });
+
+  try {
+    const res = await fetch('https://formspree.io/f/xqeynzey', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (res.ok) {
+      document.getElementById('contactForm').style.display = 'none';
+      document.getElementById('thankYou').style.display = 'block';
+    } else {
+      btn.textContent = '도입 문의하기';
+      btn.disabled = false;
+      alert('전송에 실패했습니다. 다시 시도해주세요.');
+    }
+  } catch (err) {
+    btn.textContent = '도입 문의하기';
+    btn.disabled = false;
+    alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+  }
+});
 </script>
