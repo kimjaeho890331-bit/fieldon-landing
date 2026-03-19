@@ -505,7 +505,9 @@ footer a:hover{color:var(--gray-300)}
     <div class="section-tag fade-up">contact</div>
     <h2 class="section-title fade-up">지금 현장을 켜보세요</h2>
     <p class="section-desc fade-up">간단한 정보만 남겨주세요. 1일 이내 연락드립니다.</p>
-    <form class="contact-form" onsubmit="handleSubmit(event)">
+    <form class="contact-form" action="https://formspree.io/f/xqeynzey" method="POST" id="contactForm">
+      <input type="hidden" name="_subject" value="[Fieldon] 새 도입문의">
+      <input type="hidden" name="_next" value="https://fieldon-site.vercel.app?submitted=true">
       <div class="form-row fade-up">
         <label>이름 *</label>
         <input type="text" name="name" placeholder="홍길동" required>
@@ -572,7 +574,12 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-// Form submit
-function handleSubmit(e) {
-  e.preventDefault();
-  const for
+// Form submit - Formspree 사용 (자동 이메일 전송)
+// 제출 완료 후 돌아왔을 때 감사 메시지
+if (window.location.search.includes('submitted=true')) {
+  setTimeout(() => {
+    alert('문의가 접수되었습니다! 영업일 기준 1일 이내 연락드리겠습니다.');
+    window.history.replaceState({}, '', window.location.pathname);
+  }, 500);
+}
+</script>
