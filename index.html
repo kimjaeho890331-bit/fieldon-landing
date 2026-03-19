@@ -135,6 +135,12 @@ section{padding:100px 0}
 .price-unit{font-size:12px;color:var(--gray-400);margin-bottom:20px}
 .price-feature{font-size:12px;color:var(--gray-500);line-height:1.8}
 .price-card.popular .price-feature{color:rgba(255,255,255,0.6)}
+.feature-list{text-align:left;margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-100)}
+.feature-list li{font-size:12px;color:var(--gray-500);line-height:2;list-style:none;display:flex;align-items:center;gap:8px}
+.feature-list li::before{content:'✓';color:var(--success);font-weight:700;font-size:11px;flex-shrink:0}
+.price-card.popular .feature-list{border-top-color:rgba(255,255,255,0.1)}
+.price-card.popular .feature-list li{color:rgba(255,255,255,0.6)}
+.price-card.popular .feature-list li::before{color:#6ee7b7}
 .pricing-note{text-align:center;margin-top:20px;font-size:12px;color:var(--gray-400)}
 
 /* ═══ FAQ ═══ */
@@ -390,6 +396,17 @@ footer a:hover{color:var(--gray-300)}
         <div class="price-amount">50,000</div>
         <div class="price-unit">원 / 월</div>
         <div class="price-feature">전 기능 포함<br>1인 사용</div>
+        <ul class="feature-list">
+          <li>현장관리 (무제한)</li>
+          <li>지출결의서 / 승인</li>
+          <li>업무일지 / 체크리스트</li>
+          <li>시공팀 찾기 / 견적</li>
+          <li>실시간 채팅</li>
+          <li>서류함 55종</li>
+          <li>경리캘린더 135개</li>
+          <li>전자계약서</li>
+          <li>대시보드 / 현장건강</li>
+        </ul>
       </div>
       <div class="price-card popular fade-up delay-1">
         <div class="price-badge">가장 많이 선택</div>
@@ -399,6 +416,19 @@ footer a:hover{color:var(--gray-300)}
         <div class="price-amount">100,000</div>
         <div class="price-unit">원 / 월</div>
         <div class="price-feature">전 기능 포함<br>최대 5인 사용</div>
+        <ul class="feature-list">
+          <li>현장관리 (무제한)</li>
+          <li>지출결의서 / 승인</li>
+          <li>업무일지 / 체크리스트</li>
+          <li>시공팀 찾기 / 견적</li>
+          <li>실시간 채팅</li>
+          <li>서류함 55종</li>
+          <li>경리캘린더 135개</li>
+          <li>전자계약서</li>
+          <li>대시보드 / 현장건강</li>
+          <li>직원관리 / 권한설정</li>
+          <li>월별 정산 리포트</li>
+        </ul>
       </div>
       <div class="price-card fade-up delay-2">
         <div class="price-name">Business</div>
@@ -407,6 +437,19 @@ footer a:hover{color:var(--gray-300)}
         <div class="price-amount">150,000</div>
         <div class="price-unit">원 / 월</div>
         <div class="price-feature">전 기능 포함<br>최대 10인 사용</div>
+        <ul class="feature-list">
+          <li>현장관리 (무제한)</li>
+          <li>지출결의서 / 승인</li>
+          <li>업무일지 / 체크리스트</li>
+          <li>시공팀 찾기 / 견적</li>
+          <li>실시간 채팅</li>
+          <li>서류함 55종</li>
+          <li>경리캘린더 135개</li>
+          <li>전자계약서</li>
+          <li>대시보드 / 현장건강</li>
+          <li>직원관리 / 권한설정</li>
+          <li>월별 정산 리포트</li>
+        </ul>
       </div>
       <div class="price-card fade-up delay-3">
         <div class="price-name">Enterprise</div>
@@ -414,6 +457,12 @@ footer a:hover{color:var(--gray-300)}
         <div class="price-amount" style="font-size:20px;padding-top:12px">별도 문의</div>
         <div class="price-unit" style="margin-top:4px">&nbsp;</div>
         <div class="price-feature">맞춤 설계<br>전담 지원</div>
+        <ul class="feature-list">
+          <li>Standard/Business 전 기능</li>
+          <li>전담 매니저 배정</li>
+          <li>맞춤 온보딩 지원</li>
+          <li>데이터 이전 지원</li>
+        </ul>
       </div>
     </div>
     <p class="pricing-note">초기 도입 기업 한정 특별 요금 · 연간 구독 시 10% 추가 할인 · 부가세 별도</p>
@@ -489,13 +538,13 @@ footer a:hover{color:var(--gray-300)}
   <div class="container">
     <p>
       필드온(Fieldon) · 대표 김재호<br>
-      이메일: contact@fieldon.kr<br>
+      이메일: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="492a26273d282a3d092f202c252d262767223b">[email&#160;protected]</a><br>
       <a href="#">이용약관</a> · <a href="#">개인정보처리방침</a>
     </p>
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // Scroll nav shadow
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
@@ -526,12 +575,4 @@ document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 // Form submit
 function handleSubmit(e) {
   e.preventDefault();
-  const form = e.target;
-  const data = new FormData(form);
-  // TODO: Supabase or API endpoint
-  alert('문의가 접수되었습니다! 영업일 기준 1일 이내 연락드리겠습니다.');
-  form.reset();
-}
-</script>
-</body>
-</html>
+  const for
