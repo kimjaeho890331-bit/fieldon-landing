@@ -4,183 +4,451 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FIELDON — 건설·인테리어 현장관리 플랫폼</title>
-<meta name="description" content="일정, 지출, 직원, 체크리스트, 서류까지. 카톡과 엑셀을 대체하는 건설·인테리어 통합 현장관리 플랫폼.">
-<meta property="og:title" content="FIELDON — 현장관리, 아직도 카톡으로 하세요?">
-<meta property="og:description" content="일정, 지출, 직원, 체크리스트, 서류까지 한 곳에서.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230D2444'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-family='system-ui' font-weight='bold' font-size='18'>F</text></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="description" content="작은 사고를 막는 게, 큰 신뢰의 시작입니다. 건설·인테리어 현장관리 플랫폼 FIELDON.">
+<meta property="og:title" content="FIELDON — 현장을 켜다.">
+<meta property="og:description" content="일정, 지출, 직원, 체크리스트, 서류까지 — 한 곳에서.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--navy:#0D2444;--navy-light:#1a3a6b;--white:#fff;--bg:#FAFBFC;--gray-50:#f8fafc;--gray-100:#f1f5f9;--gray-200:#e2e8f0;--gray-300:#cbd5e1;--gray-400:#94a3b8;--gray-500:#64748b;--gray-600:#475569;--gray-700:#334155;--gray-800:#1e293b;--gray-900:#0f172a;--blue:#2563eb;--green:#16a34a;--amber:#d97706;--red:#dc2626;--purple:#7c3aed;--radius:16px;--section-py:140px}
-html{scroll-behavior:smooth}
-body{font-family:'Instrument Sans',system-ui,-apple-system,sans-serif;color:var(--gray-900);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-.container{max-width:1140px;margin:0 auto;padding:0 24px}
-.text-center{text-align:center}
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,251,252,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,0.04);transition:all 0.3s}
-.nav-inner{max-width:1140px;margin:0 auto;padding:0 24px;display:flex;align-items:center;height:64px}
-.nav-logo{font-size:16px;font-weight:700;color:var(--navy);text-decoration:none;letter-spacing:-0.5px}
-.nav-links{display:flex;align-items:center;gap:36px;margin-left:auto}
-.nav-links a{font-size:13px;font-weight:500;color:var(--gray-500);text-decoration:none;transition:color 0.2s}
-.nav-links a:hover{color:var(--gray-900)}
-.nav-cta{background:var(--navy);color:var(--white)!important;padding:10px 24px;border-radius:10px;font-weight:600!important;transition:all 0.2s!important}
-.nav-cta:hover{background:var(--navy-light);transform:translateY(-1px)}
-.nav-mobile{display:none;background:none;border:none;cursor:pointer;color:var(--gray-600);margin-left:auto}
-.hero{padding:160px 0 100px;position:relative;overflow:hidden}
-.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.06) 1px,transparent 1px);background-size:72px 72px;pointer-events:none}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:100px;border:1.5px solid var(--gray-200);background:var(--white);font-size:12px;font-weight:600;color:var(--gray-500);margin-bottom:40px}
-.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-.hero h1{font-size:clamp(36px,6vw,64px);font-weight:700;letter-spacing:-2.5px;line-height:1.1;color:var(--gray-900)}
-.hero-sub{margin-top:20px;font-size:18px;color:var(--gray-400);line-height:1.7;max-width:480px;margin-left:auto;margin-right:auto}
-.hero-buttons{margin-top:40px;display:flex;align-items:center;justify-content:center;gap:16px}
-.btn-primary{display:inline-flex;align-items:center;gap:8px;padding:16px 36px;background:var(--navy);color:var(--white);font-size:15px;font-weight:600;border-radius:12px;text-decoration:none;transition:all 0.2s;border:none;cursor:pointer}
-.btn-primary:hover{background:var(--navy-light);transform:translateY(-2px);box-shadow:0 8px 30px rgba(13,36,68,0.2)}
-.btn-secondary{font-size:14px;font-weight:500;color:var(--gray-400);text-decoration:none;transition:color 0.2s}
-.btn-secondary:hover{color:var(--gray-700)}
-.hero-screenshot{margin-top:72px;max-width:960px;margin-left:auto;margin-right:auto;border-radius:16px;overflow:hidden;border:1px solid var(--gray-200);background:var(--white);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;color:var(--gray-300);font-size:14px;font-weight:500}
-.section{padding:var(--section-py) 0}
-.section-gray{background:var(--gray-50)}
-.section-label{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray-400)}
-.section-title{font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-1.5px;line-height:1.2;margin-top:12px}
-.section-desc{font-size:17px;color:var(--gray-500);line-height:1.7;margin-top:16px;max-width:560px;margin-left:auto;margin-right:auto}
-.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px;max-width:960px;margin-left:auto;margin-right:auto}
-.pain-card{padding:28px;border-radius:var(--radius);background:var(--white);border:1px solid var(--gray-100);transition:all 0.3s;cursor:default}
-.pain-card:hover{border-color:var(--gray-200);transform:translateY(-4px)}
-.pain-icon{font-size:24px;margin-bottom:16px}
-.pain-card h3{font-size:15px;font-weight:700;margin-bottom:8px;letter-spacing:-0.2px;color:var(--gray-800)}
-.pain-card p{font-size:13px;line-height:1.65;color:var(--gray-500)}
-.feature-item{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:100px}
-.feature-item:nth-child(even){direction:rtl}
-.feature-item:nth-child(even)>*{direction:ltr}
-.feature-tag{display:inline-flex;padding:6px 14px;border-radius:80px;font-size:11px;font-weight:600;letter-spacing:0.5px;margin-bottom:16px}
-.tag-blue{background:#eff6ff;color:var(--blue)}.tag-green{background:#f0fdf4;color:var(--green)}.tag-amber{background:#fffbeb;color:var(--amber)}.tag-purple{background:#f5f3ff;color:var(--purple)}.tag-gray{background:var(--gray-100);color:var(--gray-600)}.tag-red{background:#fef2f2;color:var(--red)}
-.feature-text h3{font-size:clamp(22px,3vw,30px);font-weight:700;line-height:1.3;letter-spacing:-0.8px;margin-bottom:14px}
-.feature-text p{font-size:15px;line-height:1.75;color:var(--gray-500);max-width:440px}
-.feature-screenshot{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--gray-400);font-weight:500;overflow:hidden}
-.ai-section{background:var(--navy);color:var(--white);padding:var(--section-py) 0;position:relative;overflow:hidden}
-.ai-section::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:72px 72px}
-.ai-section .section-label{color:rgba(255,255,255,0.3)}.ai-section .section-title{color:var(--white)}.ai-section .section-desc{color:rgba(255,255,255,0.4)}
-.ai-examples{margin-top:56px;max-width:720px;margin-left:auto;margin-right:auto}
-.ai-example{display:flex;gap:16px;padding:20px 0;border-bottom:1px solid rgba(255,255,255,0.06)}
-.ai-example:last-child{border-bottom:none}
-.ai-q{flex:1;font-size:14px;color:rgba(255,255,255,0.5);line-height:1.6}
-.ai-a{flex:1;font-size:14px;color:rgba(255,255,255,0.8);line-height:1.6;font-weight:500}
-.ai-dot{width:6px;height:6px;border-radius:50%;background:var(--green);margin-top:8px;flex-shrink:0}
-.coming-soon{padding:100px 0;opacity:0.6}
-.coming-badge{display:inline-flex;padding:6px 14px;border-radius:80px;font-size:11px;font-weight:600;background:var(--gray-100);color:var(--gray-400);margin-top:16px}
-.pricing-card{max-width:480px;margin:48px auto 0;padding:48px;background:var(--white);border:2px solid var(--gray-200);border-radius:20px;text-align:center}
-.pricing-badge{display:inline-flex;padding:6px 16px;border-radius:80px;font-size:11px;font-weight:700;background:#f0fdf4;color:var(--green);margin-bottom:24px;letter-spacing:0.5px}
-.pricing-price{font-size:48px;font-weight:700;letter-spacing:-2px;color:var(--gray-900)}
-.pricing-price span{font-size:16px;font-weight:500;color:var(--gray-400);letter-spacing:0}
-.pricing-note{font-size:13px;color:var(--gray-400);margin-top:8px}
-.pricing-features{margin-top:32px;text-align:left;list-style:none}
-.pricing-features li{display:flex;align-items:center;gap:10px;padding:10px 0;font-size:14px;color:var(--gray-600);border-bottom:1px solid var(--gray-50)}
-.pricing-features li::before{content:"✓";color:var(--green);font-weight:700;font-size:13px}
-.pricing-cta{margin-top:32px}
-.cta-section{padding:120px 0;text-align:center}
-.cta-section h2{font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-1.5px}
-.cta-section p{font-size:16px;color:var(--gray-400);margin-top:12px}
-.cta-section .btn-primary{margin-top:32px}
-.footer{padding:40px 0;border-top:1px solid var(--gray-100)}
-.footer-inner{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap}
-.footer-info{font-size:11px;color:var(--gray-400);line-height:2}
-.footer-links{display:flex;gap:24px}
-.footer-links a{font-size:12px;color:var(--gray-400);text-decoration:none;transition:color 0.2s}
-.footer-links a:hover{color:var(--gray-700)}
-.reveal{opacity:0;transform:translateY(30px);transition:all 0.7s cubic-bezier(0.16,1,0.3,1)}
-.reveal.visible{opacity:1;transform:translateY(0)}
-.reveal-d1{transition-delay:0.1s}.reveal-d2{transition-delay:0.2s}.reveal-d3{transition-delay:0.3s}.reveal-d4{transition-delay:0.4s}.reveal-d5{transition-delay:0.5s}
-@media(max-width:900px){:root{--section-py:100px}.nav-links{display:none}.nav-mobile{display:block}.pain-grid{grid-template-columns:1fr}.feature-item{grid-template-columns:1fr;gap:40px}.feature-item:nth-child(even){direction:ltr}.hero-buttons{flex-direction:column;align-items:center}.footer-inner{flex-direction:column}.ai-example{flex-direction:column;gap:8px}}
-@media(max-width:480px){.container{padding:0 16px}.btn-primary{width:100%;justify-content:center}}
+  :root {
+    --black: #0a0a0a;
+    --dark: #1a1a1a;
+    --gray-800: #333;
+    --gray-700: #555;
+    --gray-500: #888;
+    --gray-400: #aaa;
+    --gray-300: #ccc;
+    --gray-200: #e5e5e5;
+    --gray-100: #f5f5f5;
+    --white: #fafafa;
+    --accent: #0D2444;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Noto Sans KR',sans-serif;
+    background:var(--white);color:var(--dark);
+    line-height:1.8;-webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  .reveal{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+  .reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}
+  .reveal-d3{transition-delay:.3s}.reveal-d4{transition-delay:.4s}
+
+  /* ── Nav ── */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(250,250,250,0.8);backdrop-filter:blur(16px);
+    padding:0 clamp(20px,4vw,48px);
+    height:64px;display:flex;align-items:center;justify-content:space-between;
+    transition:box-shadow .3s;
+  }
+  .nav-logo{font-family:'Instrument Sans',sans-serif;font-size:17px;font-weight:700;color:var(--black);letter-spacing:-.5px}
+  .nav-right{display:flex;align-items:center;gap:24px}
+  .nav-right a{font-size:13px;color:var(--gray-500);text-decoration:none;font-weight:500;transition:color .2s}
+  .nav-right a:hover{color:var(--black)}
+  .nav-cta{padding:9px 24px;background:var(--black);color:white!important;font-size:13px;font-weight:600;border-radius:10px;transition:transform .2s,box-shadow .2s}
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.15)}
+
+  /* ── Hero ── */
+  .hero{
+    min-height:100vh;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    text-align:center;padding:120px 24px 80px;position:relative;
+  }
+  .hero::after{
+    content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+    width:1px;height:80px;background:linear-gradient(to bottom,transparent,var(--gray-300));
+  }
+  .hero-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 20px;border:1px solid var(--gray-200);
+    border-radius:100px;background:white;margin-bottom:48px;
+  }
+  .hero-badge-dot{width:6px;height:6px;border-radius:50%;background:#22C55E}
+  .hero-badge span{font-size:12px;font-weight:500;color:var(--gray-500);letter-spacing:1px}
+  .hero h1{
+    font-family:'Instrument Sans',sans-serif;
+    font-size:clamp(56px,10vw,110px);font-weight:700;color:var(--black);
+    letter-spacing:-4px;line-height:.9;margin-bottom:24px;
+  }
+  .hero-slogan{font-size:clamp(18px,2.5vw,24px);font-weight:400;color:var(--gray-500);margin-bottom:12px}
+  .hero-sub{font-size:clamp(14px,1.5vw,16px);font-weight:300;color:var(--gray-400);margin-bottom:48px;max-width:400px}
+  .hero-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center}
+  .btn-primary{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:16px 40px;background:var(--black);color:white;
+    font-size:15px;font-weight:600;border-radius:14px;
+    text-decoration:none;border:none;cursor:pointer;
+    transition:transform .2s,box-shadow .2s;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+  .btn-ghost{font-size:14px;color:var(--gray-500);text-decoration:none;font-weight:500;transition:color .2s}
+  .btn-ghost:hover{color:var(--black)}
+
+  /* ── Section ── */
+  .section{max-width:800px;margin:0 auto;padding:120px 24px}
+  .section-wide{max-width:960px;margin:0 auto;padding:120px 24px}
+  .section-full{padding:120px 24px}
+  .section-dark{background:var(--black);color:white}
+  .section-gray{background:var(--gray-100)}
+  .section-inner{max-width:800px;margin:0 auto}
+
+  .s-label{
+    font-family:'Instrument Sans',sans-serif;
+    font-size:11px;font-weight:600;letter-spacing:3px;
+    color:var(--gray-400);text-transform:uppercase;margin-bottom:28px;
+  }
+  .section-dark .s-label{color:rgba(255,255,255,.3)}
+  .s-title{font-size:clamp(28px,5vw,44px);font-weight:900;line-height:1.25;margin-bottom:24px;word-break:keep-all}
+  .section-dark .s-title{color:white}
+  .s-text{font-size:clamp(15px,1.8vw,17px);font-weight:300;line-height:2;color:var(--gray-700);word-break:keep-all}
+  .section-dark .s-text{color:rgba(255,255,255,.6)}
+  .s-em{font-weight:700;color:var(--black)}
+  .section-dark .s-em{color:white}
+  .divider{width:48px;height:1px;background:var(--gray-300);margin:48px 0}
+  .section-dark .divider{background:rgba(255,255,255,.15)}
+
+  /* ── Quote ── */
+  .quote-section{text-align:center;padding:120px 24px;border-top:1px solid var(--gray-200);border-bottom:1px solid var(--gray-200)}
+  .quote-text{font-size:clamp(24px,4.5vw,40px);font-weight:900;line-height:1.35;color:var(--black);word-break:keep-all;max-width:700px;margin:0 auto}
+  .quote-sub{margin-top:24px;font-size:15px;color:var(--gray-400);font-weight:300}
+
+  /* ── Pain ── */
+  .pain-grid{display:grid;grid-template-columns:1fr;gap:0;margin:48px 0}
+  .pain-item{padding:28px 0;border-bottom:1px solid var(--gray-200);display:flex;align-items:flex-start;gap:20px}
+  .pain-num{font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:700;color:var(--gray-300);flex-shrink:0;padding-top:2px}
+  .pain-text{font-size:16px;color:var(--gray-700);line-height:1.7}
+  .pain-text strong{color:var(--black);font-weight:700}
+
+  /* ── Feature ── */
+  .feature-block{margin-bottom:100px}
+  .feature-block:last-child{margin-bottom:0}
+  .feature-label{
+    font-family:'Instrument Sans',sans-serif;
+    font-size:11px;font-weight:600;letter-spacing:2px;
+    color:var(--accent);text-transform:uppercase;margin-bottom:12px;
+  }
+  .feature-title{font-size:clamp(22px,3.5vw,30px);font-weight:900;margin-bottom:12px;word-break:keep-all}
+  .feature-desc{font-size:15px;color:var(--gray-500);font-weight:300;line-height:1.8;margin-bottom:32px;max-width:520px}
+  .feature-img{
+    width:100%;aspect-ratio:16/10;
+    background:var(--gray-100);border:1px solid var(--gray-200);
+    border-radius:16px;overflow:hidden;position:relative;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .feature-img img{width:100%;height:100%;object-fit:cover;border-radius:15px}
+  .feature-img .ph{font-size:13px;color:var(--gray-300);text-align:center;padding:20px}
+  .feature-img .ph span{display:block;font-size:11px;margin-top:4px;letter-spacing:1px}
+
+  /* ── AI Demo ── */
+  .ai-demo{
+    max-width:420px;margin:48px auto 0;
+    border:1px solid rgba(255,255,255,.1);border-radius:20px;
+    overflow:hidden;background:rgba(255,255,255,.03);
+  }
+  .ai-header{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:12px}
+  .ai-avatar{
+    width:32px;height:32px;border-radius:10px;background:white;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Instrument Sans',sans-serif;font-size:12px;font-weight:700;color:var(--accent);
+  }
+  .ai-name{font-size:14px;font-weight:700;color:white}
+  .ai-body{padding:20px}
+  .ai-bubble{padding:12px 16px;border-radius:14px;font-size:13px;line-height:1.6;margin-bottom:12px;max-width:88%}
+  .ai-bubble.user{background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);margin-left:auto;border-bottom-right-radius:4px}
+  .ai-bubble.bot{background:rgba(255,255,255,.15);color:white;border-bottom-left-radius:4px}
+
+  /* ── Pricing ── */
+  .pricing{text-align:center;padding:100px 24px}
+  .pricing-badge{
+    display:inline-block;padding:6px 20px;
+    border:1px solid var(--gray-200);border-radius:100px;
+    font-size:12px;font-weight:500;color:var(--gray-500);
+    letter-spacing:1px;margin-bottom:32px;
+  }
+  .pricing-free{
+    font-family:'Instrument Sans',sans-serif;
+    font-size:clamp(48px,8vw,80px);font-weight:700;
+    color:var(--black);letter-spacing:-2px;line-height:1;margin-bottom:8px;
+  }
+  .pricing-kr{font-size:clamp(24px,4vw,36px);font-weight:900;color:var(--black);margin-bottom:24px}
+  .pricing-desc{font-size:15px;color:var(--gray-500);font-weight:300;line-height:1.8}
+
+  /* ── CTA ── */
+  .cta{text-align:center;padding:120px 24px;background:var(--black);color:white}
+  .cta h2{font-size:clamp(28px,5vw,44px);font-weight:900;margin-bottom:16px;line-height:1.3}
+  .cta p{font-size:16px;color:rgba(255,255,255,.4);font-weight:300;margin-bottom:48px}
+  .btn-white{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:16px 44px;background:white;color:var(--black);
+    font-size:15px;font-weight:700;border-radius:14px;
+    text-decoration:none;transition:transform .2s,box-shadow .2s;
+  }
+  .btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(255,255,255,.15)}
+
+  /* ── Footer ── */
+  .footer{padding:48px 24px;border-top:1px solid var(--gray-200)}
+  .footer-inner{max-width:800px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px}
+  .footer-info{font-size:12px;color:var(--gray-400);line-height:1.8}
+  .footer-links{display:flex;gap:20px}
+  .footer-links a{font-size:12px;color:var(--gray-400);text-decoration:none;transition:color .2s}
+  .footer-links a:hover{color:var(--gray-700)}
+
+  @media(max-width:768px){
+    .nav-right a:not(.nav-cta){display:none}
+    .hero{padding:100px 20px 60px}
+    .section,.section-wide{padding:80px 20px}
+    .section-full{padding:80px 20px}
+  }
 </style>
 </head>
 <body>
-<nav class="nav"><div class="nav-inner"><a href="#" class="nav-logo">FIELDON</a><div class="nav-links"><a href="#features">기능</a><a href="#pricing">요금</a><a href="https://app.fieldon.co.kr" class="nav-cta">시작하기</a></div><button class="nav-mobile" onclick="document.querySelector('.nav-links').style.display=document.querySelector('.nav-links').style.display==='flex'?'none':'flex'" aria-label="메뉴"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button></div></nav>
 
-<section class="hero" id="hero"><div class="container text-center">
-  <div class="reveal"><div class="hero-badge"><span class="hero-badge-dot"></span>건설·인테리어 전용 현장관리</div></div>
-  <h1 class="reveal reveal-d1">현장관리,<br>아직도 카톡으로 하세요?</h1>
-  <p class="hero-sub reveal reveal-d2">일정, 지출, 직원, 체크리스트, 서류까지 — 한 곳에서.</p>
-  <div class="hero-buttons reveal reveal-d3"><a href="https://app.fieldon.co.kr" class="btn-primary">무료로 시작하기 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><a href="#features" class="btn-secondary">기능 살펴보기 →</a></div>
-  <div class="hero-screenshot reveal reveal-d4">대시보드 스크린샷 (실제 캡처로 교체)</div>
-</div></section>
+<!-- NAV -->
+<nav class="nav">
+  <span class="nav-logo">FIELDON</span>
+  <div class="nav-right">
+    <a href="#features">기능</a>
+    <a href="#ai">AI 비서</a>
+    <a href="https://app.fieldon.co.kr" class="nav-cta">시작하기</a>
+  </div>
+</nav>
 
-<section class="section section-gray" id="pain"><div class="container text-center">
-  <p class="section-label reveal">현실</p>
-  <h2 class="section-title reveal">이런 분들을 위해<br>만들었습니다</h2>
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-badge reveal"><div class="hero-badge-dot"></div><span>Closed Beta</span></div>
+  <h1 class="reveal reveal-d1">FIELDON</h1>
+  <p class="hero-slogan reveal reveal-d2">현장을 켜다.</p>
+  <p class="hero-sub reveal reveal-d3">건설·인테리어 현장관리 플랫폼</p>
+  <div class="hero-actions reveal reveal-d4">
+    <a href="https://app.fieldon.co.kr" class="btn-primary">무료로 시작하기
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+    <a href="#story" class="btn-ghost">더 알아보기 →</a>
+  </div>
+</section>
+
+<!-- ═══ STORY: 왜 만들었는가 ═══ -->
+<section class="section-full section-dark" id="story">
+  <div class="section-inner">
+    <div class="s-label reveal">Our Story</div>
+    <h2 class="s-title reveal">이 프로그램을 만든<br>진짜 이유</h2>
+
+    <p class="s-text reveal" style="margin-bottom:32px">
+      아마 지금도 100개의 인테리어 업체를 방문하면<br>
+      100개의 업체가 다 다른 방법으로 현장관리를 하고 있습니다.
+    </p>
+
+    <p class="s-text reveal" style="margin-bottom:32px">
+      그런데 인테리어 대표님들이<br>
+      현장 질문보다 <span class="s-em">더 많이 하는 질문</span>이 있습니다.
+    </p>
+
+    <div style="padding:40px 0;margin:32px 0;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1)" class="reveal">
+      <p style="font-size:clamp(22px,4vw,34px);font-weight:900;color:white;line-height:1.4">"직원관리 어떻게 하세요?"</p>
+    </div>
+
+    <p class="s-text reveal" style="margin-bottom:32px">
+      혼자 시작해서 직원이 2명, 3명, 5명 그 이상 늘어난 사람들.<br>
+      현장 경험은 있지만 <span class="s-em">직원을 관리해본 경험은 없습니다.</span>
+    </p>
+
+    <p class="s-text reveal" style="margin-bottom:32px">
+      매뉴얼이 없으니 당연합니다.<br>
+      대표는 할 건 많은데 하는 거 없이 바쁘고,<br>
+      <span class="s-em">직원을 늘렸는데 일은 줄지 않는 현상</span>이 생깁니다.
+    </p>
+
+    <div class="divider reveal"></div>
+
+    <p class="s-text reveal">
+      그래서 FIELDON에는 현장관리뿐 아니라<br>
+      <span class="s-em">직원이 스스로 찾아볼 수 있는 구조</span>를 함께 넣었습니다.
+    </p>
+  </div>
+</section>
+
+<!-- ═══ BELIEF: 안전장치 ═══ -->
+<section class="section">
+  <div class="s-label reveal">Our Belief</div>
+  <h2 class="s-title reveal">누가 써도<br>꼭 필요한 것만</h2>
+
+  <p class="s-text reveal" style="margin-bottom:32px">
+    인테리어는 진입장벽이 낮은 업종입니다.<br>
+    자격증 없이도 시작할 수 있고, 열정 하나로 뛰어드는 분들이 많습니다.
+  </p>
+
+  <p class="s-text reveal" style="margin-bottom:32px">
+    문제는 <span class="s-em">관리의 장벽</span>입니다.
+  </p>
+
+  <p class="s-text reveal" style="margin-bottom:32px">
+    체크리스트 없이 현장을 돌리고,<br>
+    정산은 머릿속으로 하고,<br>
+    현장과 사무실의 소통이 되지 않습니다.
+  </p>
+
+  <p class="s-text reveal" style="margin-bottom:32px">
+    사고가 나고, 소비자가 피해를 입고,<br>
+    몇몇 업체 때문에 성실한 대다수까지<br>
+    "인테리어는 양아치"라는 편견을 뒤집어씁니다.
+  </p>
+
+  <p class="s-text reveal">
+    <span class="s-em">어느 업종보다도 고객과 업체 사이에 신뢰가 깨져 있는 시장입니다.</span>
+  </p>
+
+  <div class="divider reveal"></div>
+
+  <p class="s-text reveal">
+    FIELDON은 이 문턱이 낮은 업종에<br>
+    <span class="s-em">최소한의 안전장치</span>가 되려 합니다.
+  </p>
+</section>
+
+<!-- ═══ QUOTE ═══ -->
+<section class="quote-section">
+  <p class="quote-text reveal">작은 사고를 막는 게,<br>큰 신뢰의 시작입니다.</p>
+  <p class="quote-sub reveal reveal-d1">쉬워서 누구나 쓸 수 있고,<br>쓰기만 하면 최소한의 사고는 막아주는.<br>대표님이 사업을 고민할 시간을 만들어주는.</p>
+</section>
+
+<!-- ═══ PAIN POINTS ═══ -->
+<section class="section">
+  <div class="s-label reveal">For You</div>
+  <h2 class="s-title reveal">이런 분들을 위해<br>만들었습니다</h2>
   <div class="pain-grid">
-    <div class="pain-card reveal"><div class="pain-icon">📋</div><h3>지시하면 안 되어있고,<br>수습은 사장이</h3><p>할 일을 전달해도 확인이 안 되고, 결국 사장이 직접 챙기게 됩니다. 누가 뭘 했는지 기록도 없습니다.</p></div>
-    <div class="pain-card reveal reveal-d1"><div class="pain-icon">📅</div><h3>현장 스케줄을<br>엑셀로 관리</h3><p>여러 현장의 공정 일정을 엑셀 파일로 관리합니다. 변경되면 파일 열어서 수정하고 다시 공유해야 합니다.</p></div>
-    <div class="pain-card reveal reveal-d2"><div class="pain-icon">💰</div><h3>현장 끝나면<br>1주일씩 정산</h3><p>현장별 지출을 실시간으로 모르니까, 공사 끝나고 나서야 영수증 모아서 정산합니다.</p></div>
-    <div class="pain-card reveal reveal-d3"><div class="pain-icon">💬</div><h3>24시간 카톡으로<br>고객 응대</h3><p>고객이 "지금 어디까지 됐어요?" 물어보면 현장에 전화해서 확인하고 다시 카톡 보냅니다.</p></div>
-    <div class="pain-card reveal reveal-d4"><div class="pain-icon">📖</div><h3>회사 규정이<br>정리 안 된 분</h3><p>월차 사용법, 경조사 휴일, 복장 규정 — 직원이 물어볼 때마다 매번 설명합니다.</p></div>
-    <div class="pain-card reveal reveal-d5"><div class="pain-icon">📁</div><h3>서류 매번<br>찾아다니는 분</h3><p>협력업체 사업자등록증, 작업자 통장사본을 매번 요청합니다. 한 곳에 정리된 적이 없습니다.</p></div>
+    <div class="pain-item reveal"><div class="pain-num">01</div><div class="pain-text"><strong>직원한테 지시하면 안 되어있고,</strong> 현장 갔다오면 사고나 있는 분</div></div>
+    <div class="pain-item reveal"><div class="pain-num">02</div><div class="pain-text"><strong>직원 늘렸는데 일은 안 줄어드는</strong> 현상에 빠져있는 분</div></div>
+    <div class="pain-item reveal"><div class="pain-num">03</div><div class="pain-text"><strong>현장 끝나면 1주일씩 정산</strong>에 매달리는 분</div></div>
+    <div class="pain-item reveal"><div class="pain-num">04</div><div class="pain-text"><strong>현장 스케줄을 엑셀로 관리</strong>하고 있는 분</div></div>
+    <div class="pain-item reveal"><div class="pain-num">05</div><div class="pain-text"><strong>회사 규정이 정리 안 돼서</strong> 새 직원 올 때마다 같은 질문 받는 분</div></div>
+    <div class="pain-item reveal"><div class="pain-num">06</div><div class="pain-text"><strong>카톡, 엑셀, 노션에 다 흩어져 있어서</strong> 한 곳에 모인 게 없는 분</div></div>
   </div>
-</div></section>
+</section>
 
-<section class="section" id="features"><div class="container">
-  <div class="text-center"><p class="section-label reveal">핵심 기능</p><h2 class="section-title reveal">FIELDON이 해결합니다</h2><p class="section-desc reveal">실제 화면을 확인하세요. 보면 바로 압니다.</p></div>
-  <div class="feature-item reveal"><div class="feature-text"><span class="feature-tag tag-blue">현장관리</span><h3>모든 현장을<br>한 화면에서</h3><p>현장별 일정, 체크리스트, 업무일지, 서류, 지출내역까지. 현장 하나를 클릭하면 모든 것이 펼쳐집니다. A~F 건강 등급으로 현장 상태를 숫자로 확인하세요.</p></div><div class="feature-screenshot">현장관리 스크린샷</div></div>
-  <div class="feature-item reveal"><div class="feature-text"><span class="feature-tag tag-green">지출결의</span><h3>지출 승인,<br>실시간으로</h3><p>직원이 올리면 대표가 승인 또는 반려. 현장별 지출이 실시간으로 쌓이니까, 공사 끝나고 1주일씩 정산할 필요가 없습니다. 노무비 공제도 자동 계산.</p></div><div class="feature-screenshot">지출결의 스크린샷</div></div>
-  <div class="feature-item reveal"><div class="feature-text"><span class="feature-tag tag-amber">일정관리</span><h3>직원 일정 + TODO<br>한눈에</h3><p>할 일을 할당하면 담당자에게 알림이 갑니다. 마감일, 완료 여부가 다 보입니다. 지시하고 확인 안 해도 되는 구조.</p></div><div class="feature-screenshot">일정관리 스크린샷</div></div>
-  <div class="feature-item reveal"><div class="feature-text"><span class="feature-tag tag-purple">DB 관리</span><h3>서류, 한번 등록하면<br>다시 안 찾습니다</h3><p>작업자 신분증, 통장사본. 협력업체 사업자등록증, 통장사본. 한번 등록하면 언제든 꺼내 씁니다. 매번 요청할 필요 없습니다.</p></div><div class="feature-screenshot">협력업체 DB 스크린샷</div></div>
-  <div class="feature-item reveal"><div class="feature-text"><span class="feature-tag tag-red">체크리스트</span><h3>공종별 체크리스트<br>자동 생성</h3><p>현장을 추가하면 공종에 맞는 체크리스트가 자동으로 만들어집니다. 뭘 빼먹었는지 한눈에 보입니다.</p></div><div class="feature-screenshot">체크리스트 스크린샷</div></div>
-  <div class="feature-item reveal"><div class="feature-text"><span class="feature-tag tag-gray">공지·규정</span><h3>회사 규정,<br>더 이상 설명 안 해도</h3><p>월차 사용법, 경조사 휴일, 복장 규정. 한번 올려두면 직원이 직접 확인합니다. 매번 물어보는 일이 없어집니다.</p></div><div class="feature-screenshot">공지규정 스크린샷</div></div>
-</div></section>
+<!-- ═══ FEATURES (3개) ═══ -->
+<section class="section-wide" id="features">
+  <div class="s-label reveal">Features</div>
+  <h2 class="s-title reveal">일정, 지출, 직원, 서류<br>한 곳에서.</h2>
+  <p class="s-text reveal" style="margin-bottom:80px">누구나 켜자마자 쓸 수 있는 것.<br>FIELDON이 추구하는 방향입니다.</p>
 
-<section class="ai-section" id="ai"><div class="container text-center" style="position:relative;z-index:1">
-  <p class="section-label reveal">AI 비서</p>
-  <h2 class="section-title reveal">처음이라 어려워도<br>괜찮습니다</h2>
-  <p class="section-desc reveal">AI 비서가 사용법 안내부터 업무 자동화까지 도와줍니다</p>
-  <div class="ai-examples">
-    <div class="ai-example reveal"><div class="ai-dot"></div><div class="ai-q">"오늘 래미안 현장에 목수 3명 왔고 석고 자재 20장 들어왔어. 작업일지 작성해줘"</div><div class="ai-a">→ 업무일지 자동 작성 (날짜, 투입인원, 자재 반영)</div></div>
-    <div class="ai-example reveal reveal-d1"><div class="ai-dot"></div><div class="ai-q">"이번 달 강남 네일샵 지출 얼마야?"</div><div class="ai-a">→ 현장별 지출 합계 즉시 답변</div></div>
-    <div class="ai-example reveal reveal-d2"><div class="ai-dot"></div><div class="ai-q">"다음 주 일정 정리해줘"</div><div class="ai-a">→ 현장별 스케줄 + TODO 요약</div></div>
-    <div class="ai-example reveal reveal-d3"><div class="ai-dot"></div><div class="ai-q">"협력업체 대성타일 연락처 알려줘"</div><div class="ai-a">→ DB에서 즉시 검색</div></div>
-    <div class="ai-example reveal reveal-d4"><div class="ai-dot"></div><div class="ai-q">"체크리스트 어떻게 쓰는 거야?"</div><div class="ai-a">→ 기능 사용법 즉시 안내</div></div>
+  <!-- 1. 현장 일정 -->
+  <div class="feature-block reveal">
+    <div class="feature-label">Schedule</div>
+    <div class="feature-title">현장 일정 — 공정부터 체크리스트까지</div>
+    <div class="feature-desc">현장별 공정 스케줄, 캘린더, 체크리스트를 한눈에. 사장이 물어보지 않아도 현장 상태가 보입니다. 빠진 공정 없이, 검수 때 당황하지 않습니다.</div>
+    <div class="feature-img">
+      <img src="images/screenshot-schedule.png" alt="현장 공정캘린더 / 체크리스트 화면" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="ph" style="display:none">현장 공정캘린더 / 체크리스트 화면 캡처</div>
+    </div>
   </div>
-</div></section>
 
-<section class="section coming-soon text-center"><div class="container">
-  <p class="section-label reveal">Coming Soon</p>
-  <h2 class="section-title reveal" style="font-size:clamp(24px,3vw,32px)">시공팀 연결</h2>
-  <p class="section-desc reveal">시공팀 검색 → 견적 요청 → 전자계약 → 일정 자동연동</p>
-  <div class="coming-badge reveal">곧 오픈됩니다</div>
-</div></section>
-
-<section class="section section-gray" id="pricing"><div class="container text-center">
-  <p class="section-label reveal">요금</p>
-  <h2 class="section-title reveal">심플한 요금제</h2>
-  <div class="pricing-card reveal">
-<div class="pricing-badge">🎉 클로즈드 베타 진행 중</div>
-<div style="margin-bottom:8px"><span style="font-size:32px;color:var(--gray-300);text-decoration:line-through;font-weight:600">₩100,000</span></div>
-<div class="pricing-price" style="color:var(--green)">무료 <span style="color:var(--gray-400)">/ 베타 기간</span></div>
-<p class="pricing-note">정식 출시 후 월 100,000원 (부가세 별도) · 연간 구독 10% 할인</p>
-<ul class="pricing-features">
-  <li>현장 무제한 등록</li><li>직원 무제한 초대</li><li>현장 건강 대시보드 (A~F 등급)</li><li>지출결의 + 자동정산</li><li>체크리스트 + 업무일지</li><li>작업자 / 협력업체 DB</li><li>실시간 채팅 + 파일 공유</li><li>AI 비서</li><li>공지·규정 게시판</li>
-</ul>
-<div class="pricing-cta"><a href="https://app.fieldon.co.kr" class="btn-primary" style="width:100%;justify-content:center">지금 무료로 시작하기</a></div>
+  <!-- 2. 직원 관리 -->
+  <div class="feature-block reveal">
+    <div class="feature-label">Team</div>
+    <div class="feature-title">직원 관리 — 업무 할당부터 기록까지</div>
+    <div class="feature-desc">누가 어디 갔는지, 뭘 했는지, 뭘 해야 하는지. 기록이 남으니까 "시킨 일이 안 되어있는" 상황이 줄어듭니다. 직원이 스스로 찾아볼 수 있는 구조.</div>
+    <div class="feature-img">
+      <img src="images/screenshot-team.png" alt="직원 캘린더 / TODO 할당 화면" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="ph" style="display:none">직원 캘린더 / TODO 할당 화면 캡처</div>
+    </div>
   </div>
-</div></section>
 
-<section class="cta-section"><div class="container">
-  <h2 class="reveal">지금 바로 시작하세요</h2>
-  <p class="reveal reveal-d1">카톡 끄고, 엑셀 닫고. 현장관리의 새로운 기준.</p>
-  <a href="https://app.fieldon.co.kr" class="btn-primary reveal reveal-d2">무료로 시작하기 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
-</div></section>
+  <!-- 3. 현장 정산 -->
+  <div class="feature-block reveal">
+    <div class="feature-label">Finance</div>
+    <div class="feature-title">현장 정산 — 1주일이 5분으로</div>
+    <div class="feature-desc">현장에서 3초면 등록. 자재비·노무비·경비가 자동 분류되고, 월별 정산이 버튼 하나로 끝납니다. 엑셀 3개 열어서 합계 돌릴 필요 없습니다.</div>
+    <div class="feature-img">
+      <img src="images/screenshot-finance.png" alt="지출결의서 / 월별정산 화면" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="ph" style="display:none">지출결의서 / 월별정산 화면 캡처</div>
+    </div>
+  </div>
+</section>
 
-<footer class="footer"><div class="container">
+<!-- ═══ AI 비서 ═══ -->
+<section class="section-full section-dark" id="ai">
+  <div class="section-inner">
+    <div class="s-label reveal">AI Assistant</div>
+    <h2 class="s-title reveal">처음이라 어려워도<br>괜찮습니다</h2>
+    <p class="s-text reveal" style="margin-bottom:8px">AI 비서 필드봇이 사용법 안내부터 업무 자동화까지 도와줍니다.</p>
+    <p class="s-text reveal">말하듯이 시키면, 알아서 해줍니다.</p>
+
+    <div class="ai-demo reveal">
+      <div class="ai-header">
+        <div class="ai-avatar">F</div>
+        <div class="ai-name">AI 비서 필드봇</div>
+      </div>
+      <div class="ai-body">
+        <div class="ai-bubble user">오늘 래미안 현장에 목수 3명 왔고 석고 자재 20장 들어왔어. 작업일지 작성해줘</div>
+        <div class="ai-bubble bot">래미안 현장 작업일지를 작성했습니다 ✅<br><br>• 투입인원: 목수 3명<br>• 자재입고: 석고보드 20장<br><br>확인 후 저장하시겠어요?</div>
+        <div class="ai-bubble user">이번 달 강남 현장 지출 얼마야?</div>
+        <div class="ai-bubble bot">강남 현장 3월 지출 합계: 12,450,000원<br><br>• 자재비 8,200,000원<br>• 노무비 3,500,000원<br>• 경비 750,000원</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PHILOSOPHY CLOSER ═══ -->
+<section class="section" style="text-align:center">
+  <p class="s-text reveal" style="margin-bottom:32px;color:var(--gray-500)">
+    아이폰은 무언가를 더한 게 아니라<br>
+    <span class="s-em">뺀 아름다움</span>입니다.
+  </p>
+  <p class="s-text reveal" style="color:var(--gray-500)">
+    FIELDON도 그렇습니다.<br>
+    많은 기능이 아니라,<br>
+    <span class="s-em">누가 써도 꼭 필요한 것만.</span>
+  </p>
+  <div style="margin:48px auto;width:48px;height:1px;background:var(--gray-300)" class="reveal"></div>
+  <p class="reveal" style="font-size:clamp(20px,3.5vw,28px);font-weight:900;color:var(--black);line-height:1.4">
+    인테리어 업종의<br>새로운 기준이 되고 싶습니다.
+  </p>
+</section>
+
+<!-- ═══ Pricing ═══ -->
+<section class="pricing reveal">
+  <div class="pricing-badge">PRICING</div>
+  <div class="pricing-free">FREE</div>
+  <div class="pricing-kr">무료</div>
+  <p class="pricing-desc">클로즈드 베타 기간에는 모든 기능을 무료로 사용할 수 있습니다.</p>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta">
+  <h2 class="reveal">현장을 켜다.</h2>
+  <p class="reveal reveal-d1">클로즈드 베타 진행 중입니다.<br>지금 바로 무료로 시작해보세요.</p>
+  <a href="https://app.fieldon.co.kr" class="btn-white reveal reveal-d2">
+    무료로 시작하기
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+  </a>
+</section>
+
+<!-- ═══ Footer ═══ -->
+<footer class="footer">
   <div class="footer-inner">
-    <div class="footer-info"><strong>필드온(Fieldon)</strong><br>대표: 김소연 | 사업자등록번호: 195-04-03792<br>주소: 경기도 수원시 영통구 광교호수공원로 45<br>이메일: contact@fieldon.co.kr</div>
-    <div class="footer-links"><a href="https://app.fieldon.co.kr">로그인</a><a href="#">이용약관</a><a href="#">개인정보처리방침</a></div>
+    <div class="footer-info">
+      <strong>필드온(Fieldon)</strong><br>
+      대표: 김소연 | 사업자등록번호: 195-04-03792<br>
+      주소: 경기도 수원시 영통구 광교호수공원로 45<br>
+      이메일: contact@fieldon.co.kr
+    </div>
+    <div class="footer-links">
+      <a href="https://app.fieldon.co.kr">로그인</a>
+      <a href="#">이용약관</a>
+      <a href="#">개인정보처리방침</a>
+    </div>
   </div>
-  <div style="margin-top:24px;font-size:11px;color:var(--gray-300)">© 2026 FIELDON. All rights reserved.</div>
-</div></footer>
+  <div style="max-width:800px;margin:24px auto 0;font-size:11px;color:var(--gray-300)">© 2026 FIELDON. All rights reserved.</div>
+</footer>
 
 <script>
-const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}})},{threshold:0.1});
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
-window.addEventListener('scroll',()=>{document.querySelector('.nav').style.boxShadow=window.scrollY>10?'0 2px 20px rgba(0,0,0,0.06)':'none'});
+const ob=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');ob.unobserve(x.target)}})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>ob.observe(el));
+window.addEventListener('scroll',()=>{document.querySelector('.nav').style.boxShadow=window.scrollY>10?'0 2px 20px rgba(0,0,0,.06)':'none'});
 </script>
 </body>
 </html>
