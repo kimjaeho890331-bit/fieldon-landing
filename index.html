@@ -492,8 +492,18 @@
       <div class="form-success-icon">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
       </div>
-      <h3>신청이 완료되었습니다</h3>
-      <p>입력하신 연락처로 초대코드를 보내드리겠습니다.<br>빠른 시일 내에 연락드리겠습니다.</p>
+      <h3 id="successTitle">초대코드가 발급되었습니다!</h3>
+      <div id="successCode" style="background:var(--gray-100);border:2px dashed var(--gray-200);border-radius:12px;padding:16px;margin:20px 0;text-align:center">
+        <div style="font-size:11px;color:var(--gray-400);font-weight:600;letter-spacing:2px;margin-bottom:6px">초대코드</div>
+        <div id="codeDisplay" style="font-size:28px;font-weight:900;color:var(--black);letter-spacing:2px;font-family:monospace"></div>
+      </div>
+      <p id="successDesc" style="font-size:14px;color:var(--gray-500);line-height:1.8">
+        <a href="https://app.fieldon.co.kr" style="color:var(--black);font-weight:700">app.fieldon.co.kr</a> 에서<br>
+        로그인 후 위 코드를 입력하시면 됩니다.
+      </p>
+      <a href="https://app.fieldon.co.kr" style="display:inline-flex;align-items:center;gap:8px;margin-top:24px;padding:14px 36px;background:var(--black);color:white;font-size:15px;font-weight:700;border-radius:14px;text-decoration:none;transition:transform .2s">
+        바로 시작하기 →
+      </a>
     </div>
   </div>
 </section>
@@ -526,16 +536,13 @@
   <div style="max-width:800px;margin:24px auto 0;font-size:11px;color:var(--gray-300)">© 2026 FIELDON. All rights reserved.</div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 const ob=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');ob.unobserve(x.target)}})},{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>ob.observe(el));
 window.addEventListener('scroll',()=>{document.querySelector('.nav').style.boxShadow=window.scrollY>10?'0 2px 20px rgba(0,0,0,.06)':'none'});
 
-const sb=window.supabase.createClient(
-  'https://lmklxicrewgkgbhsikbw.supabase.co',
-  'sb_publishable_nJdLOOgElFSmX_lLjUDBsA_yxRlVuje'
-);
+const EDGE_URL='https://lmklxicrewgkgbhsikbw.supabase.co/functions/v1/apply-beta';
+const ANON_KEY='sb_publishable_nJdLOOgElFSmX_lLjUDBsA_yxRlVuje';
 
 async function submitApplication(){
   const btn=document.getElementById('submitBtn');
@@ -545,16 +552,27 @@ async function submitApplication(){
   const phone=document.getElementById('aPhone').value.trim();
   const email=document.getElementById('aEmail').value.trim();
   const company=document.getElementById('aCompany').value.trim();
+  const message=document.getElementById('aMessage').value.trim();
   if(!name){errEl.textContent='이름을 입력해주세요.';errEl.style.display='block';return;}
   if(!phone){errEl.textContent='연락처를 입력해주세요.';errEl.style.display='block';return;}
-  btn.disabled=true;btn.textContent='신청 중...';
+  btn.disabled=true;btn.textContent='코드 발급 중...';
   try{
-    const message=document.getElementById('aMessage').value.trim();
-    const{error}=await sb.from('beta_applications').insert({
-      name:name,phone:phone,email:email||null,company_name:company||null,message:message||null,status:'pending'
+    const res=await fetch(EDGE_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+ANON_KEY},
+      body:JSON.stringify({name,phone,email:email||null,company_name:company||null,message:message||null})
     });
-    if(error)throw error;
+    const data=await res.json();
+    if(!res.ok)throw new Error(data.error||'오류');
     document.getElementById('apply-form-wrap').style.display='none';
+    document.getElementById('codeDisplay').textContent=data.code;
+    if(data.resent){
+      document.getElementById('successTitle').textContent='이미 발급된 코드가 있습니다';
+    }
+    if(data.emailSent){
+      document.getElementById('successDesc').innerHTML+=
+        '<br><span style="font-size:12px;color:var(--gray-400)">이메일로도 발송되었습니다 ✉</span>';
+    }
     document.getElementById('apply-success').style.display='block';
   }catch(e){
     errEl.textContent='신청 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
