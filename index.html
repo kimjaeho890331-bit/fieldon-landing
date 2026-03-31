@@ -479,6 +479,10 @@
           <label>회사명</label>
           <input type="text" id="aCompany" placeholder="회사명 (선택)">
         </div>
+        <div class="form-group">
+          <label>문의 사항</label>
+          <textarea id="aMessage" rows="3" placeholder="궁금한 점이나 요청사항을 남겨주세요 (선택)" style="padding:14px 18px;border:1px solid var(--gray-200);border-radius:12px;font-size:15px;font-family:inherit;background:white;color:var(--dark);outline:none;transition:border-color .2s,box-shadow .2s;resize:vertical;min-height:80px"></textarea>
+        </div>
         <div id="formError" class="form-error" style="display:none"></div>
         <button type="submit" class="btn-submit" id="submitBtn" onclick="submitApplication()">신청하기</button>
       </form>
@@ -545,8 +549,9 @@ async function submitApplication(){
   if(!phone){errEl.textContent='연락처를 입력해주세요.';errEl.style.display='block';return;}
   btn.disabled=true;btn.textContent='신청 중...';
   try{
+    const message=document.getElementById('aMessage').value.trim();
     const{error}=await sb.from('beta_applications').insert({
-      name:name,phone:phone,email:email||null,company_name:company||null,status:'pending'
+      name:name,phone:phone,email:email||null,company_name:company||null,message:message||null,status:'pending'
     });
     if(error)throw error;
     document.getElementById('apply-form-wrap').style.display='none';
