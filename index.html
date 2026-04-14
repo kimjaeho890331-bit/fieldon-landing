@@ -248,7 +248,7 @@
   <div class="nav-right">
     <a href="#features">기능</a>
     <a href="#ai">AI 비서</a>
-    <a href="#apply" class="nav-cta">베타 신청</a>
+    <a href="https://app.fieldon.co.kr/?signup=1" class="nav-cta">베타 신청</a>
   </div>
 </nav>
 
@@ -259,7 +259,7 @@
   <p class="hero-slogan reveal reveal-d2">현장을 켜다.</p>
   <p class="hero-sub reveal reveal-d3">건설·인테리어 현장관리 플랫폼</p>
   <div class="hero-actions reveal reveal-d4">
-    <a href="#apply" class="btn-primary">베타 신청하기
+    <a href="https://app.fieldon.co.kr/?signup=1" class="btn-primary">베타 신청하기
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
     </a>
     <a href="#story" class="btn-ghost">더 알아보기 →</a>
@@ -452,59 +452,15 @@
   <p class="pricing-desc">클로즈드 베타 기간에는 모든 기능을 무료로 사용할 수 있습니다.</p>
 </section>
 
-<!-- ═══ 서비스 신청 ═══ -->
-<section class="apply" id="apply">
-  <div class="apply-inner">
-    <div class="s-label reveal">Apply</div>
-    <h2 class="s-title reveal">무료 베타 신청</h2>
-    <p class="s-text reveal">아래 정보를 남겨주시면<br>초대코드를 보내드립니다.</p>
-
-    <div id="apply-form-wrap">
-      <form class="apply-form reveal" id="applyForm" onsubmit="return false;">
-        <div class="form-group">
-          <label>이름 <span style="color:#E24B4A">*</span></label>
-          <input type="text" id="aName" placeholder="홍길동" required>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>연락처 <span style="color:#E24B4A">*</span></label>
-            <input type="tel" id="aPhone" placeholder="010-0000-0000" required oninput="formatPhone(this)">
-          </div>
-          <div class="form-group">
-            <label>이메일</label>
-            <input type="email" id="aEmail" placeholder="email@example.com">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>회사명</label>
-          <input type="text" id="aCompany" placeholder="회사명 (선택)">
-        </div>
-        <div class="form-group">
-          <label>문의 사항</label>
-          <textarea id="aMessage" rows="3" placeholder="궁금한 점이나 요청사항을 남겨주세요 (선택)" style="padding:14px 18px;border:1px solid var(--gray-200);border-radius:12px;font-size:15px;font-family:inherit;background:white;color:var(--dark);outline:none;transition:border-color .2s,box-shadow .2s;resize:vertical;min-height:80px"></textarea>
-        </div>
-        <div id="formError" class="form-error" style="display:none"></div>
-        <button type="submit" class="btn-submit" id="submitBtn" onclick="submitApplication()">신청하기</button>
-      </form>
-    </div>
-
-    <div id="apply-success" class="form-success" style="display:none">
-      <div class="form-success-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-      </div>
-      <h3 id="successTitle">초대코드가 발급되었습니다!</h3>
-      <div id="successCode" style="background:var(--gray-100);border:2px dashed var(--gray-200);border-radius:12px;padding:16px;margin:20px 0;text-align:center">
-        <div style="font-size:11px;color:var(--gray-400);font-weight:600;letter-spacing:2px;margin-bottom:6px">초대코드</div>
-        <div id="codeDisplay" style="font-size:28px;font-weight:900;color:var(--black);letter-spacing:2px;font-family:monospace"></div>
-      </div>
-      <p id="successDesc" style="font-size:14px;color:var(--gray-500);line-height:1.8">
-        <a href="https://app.fieldon.co.kr" style="color:var(--black);font-weight:700">app.fieldon.co.kr</a> 에서<br>
-        로그인 후 위 코드를 입력하시면 됩니다.
-      </p>
-      <a href="https://app.fieldon.co.kr" style="display:inline-flex;align-items:center;gap:8px;margin-top:24px;padding:14px 36px;background:var(--black);color:white;font-size:15px;font-weight:700;border-radius:14px;text-decoration:none;transition:transform .2s">
-        바로 시작하기 →
-      </a>
-    </div>
+<!-- ═══ 바로 시작 ═══ -->
+<section class="apply">
+  <div class="apply-inner" style="text-align:center">
+    <div class="s-label reveal">Start</div>
+    <h2 class="s-title reveal">지금 바로 시작하기</h2>
+    <p class="s-text reveal">카카오 또는 구글 로그인 한 번이면<br>바로 현장을 시작할 수 있습니다.</p>
+    <a href="https://app.fieldon.co.kr/?signup=1" style="display:inline-flex;align-items:center;gap:8px;margin-top:32px;padding:16px 42px;background:var(--black);color:white;font-size:15px;font-weight:700;border-radius:14px;text-decoration:none;transition:transform .2s" class="reveal">
+      무료로 시작하기 →
+    </a>
   </div>
 </section>
 
@@ -512,7 +468,7 @@
 <section class="cta">
   <h2 class="reveal">현장을 켜다.</h2>
   <p class="reveal reveal-d1">클로즈드 베타 진행 중입니다.<br>지금 바로 무료로 시작해보세요.</p>
-  <a href="#apply" class="btn-white reveal reveal-d2">
+  <a href="https://app.fieldon.co.kr/?signup=1" class="btn-white reveal reveal-d2">
     베타 신청하기
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
   </a>
@@ -541,51 +497,6 @@ const ob=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.targe
 document.querySelectorAll('.reveal').forEach(el=>ob.observe(el));
 window.addEventListener('scroll',()=>{document.querySelector('.nav').style.boxShadow=window.scrollY>10?'0 2px 20px rgba(0,0,0,.06)':'none'});
 
-function formatPhone(el){
-  let v=el.value.replace(/[^0-9]/g,'');
-  if(v.length>3&&v.length<=7)v=v.slice(0,3)+'-'+v.slice(3);
-  else if(v.length>7)v=v.slice(0,3)+'-'+v.slice(3,7)+'-'+v.slice(7,11);
-  el.value=v;
-}
-const EDGE_URL='https://lmklxicrewgkgbhsikbw.supabase.co/functions/v1/apply-beta';
-const ANON_KEY='sb_publishable_nJdLOOgElFSmX_lLjUDBsA_yxRlVuje';
-
-async function submitApplication(){
-  const btn=document.getElementById('submitBtn');
-  const errEl=document.getElementById('formError');
-  errEl.style.display='none';
-  const name=document.getElementById('aName').value.trim();
-  const phone=document.getElementById('aPhone').value.trim();
-  const email=document.getElementById('aEmail').value.trim();
-  const company=document.getElementById('aCompany').value.trim();
-  const message=document.getElementById('aMessage').value.trim();
-  if(!name){errEl.textContent='이름을 입력해주세요.';errEl.style.display='block';return;}
-  if(!phone){errEl.textContent='연락처를 입력해주세요.';errEl.style.display='block';return;}
-  btn.disabled=true;btn.textContent='코드 발급 중...';
-  try{
-    const res=await fetch(EDGE_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+ANON_KEY},
-      body:JSON.stringify({name,phone,email:email||null,company_name:company||null,message:message||null})
-    });
-    const data=await res.json();
-    if(!res.ok)throw new Error(data.error||'오류');
-    document.getElementById('apply-form-wrap').style.display='none';
-    document.getElementById('codeDisplay').textContent=data.code;
-    if(data.resent){
-      document.getElementById('successTitle').textContent='이미 발급된 코드가 있습니다';
-    }
-    if(data.emailSent){
-      document.getElementById('successDesc').innerHTML+=
-        '<br><span style="font-size:12px;color:var(--gray-400)">이메일로도 발송되었습니다 ✉</span>';
-    }
-    document.getElementById('apply-success').style.display='block';
-  }catch(e){
-    errEl.textContent='신청 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
-    errEl.style.display='block';
-    btn.disabled=false;btn.textContent='신청하기';
-  }
-}
 </script>
 </body>
 </html>
