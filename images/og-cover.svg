@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <style>
+      .bg { fill: #fafafa; }
+      .brand { font-family: 'Noto Sans KR', 'Pretendard', sans-serif; font-weight: 900; font-size: 196px; fill: #0a0a0a; letter-spacing: -8px; }
+      .tag { font-family: 'Noto Sans KR', 'Pretendard', sans-serif; font-weight: 600; font-size: 44px; fill: #0a0a0a; letter-spacing: -1px; }
+      .sub { font-family: 'Noto Sans KR', 'Pretendard', sans-serif; font-weight: 400; font-size: 24px; fill: #888888; letter-spacing: -0.4px; }
+      .meta { font-family: 'Noto Sans KR', 'Pretendard', sans-serif; font-weight: 500; font-size: 18px; fill: #555555; letter-spacing: 0.2px; }
+      .accent { fill: #0D2444; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1200" height="630"/>
+
+  <!-- 상단 라벨 점 -->
+  <circle class="accent" cx="600" cy="98" r="5"/>
+
+  <!-- FIELDON 큰 글씨 -->
+  <text class="brand" x="600" y="295" text-anchor="middle">FIELDON</text>
+
+  <!-- 태그라인 -->
+  <text class="tag" x="600" y="380" text-anchor="middle">현장을 켜다.</text>
+
+  <!-- 서브 카피 -->
+  <text class="sub" x="600" y="438" text-anchor="middle">세상에 없던, 인테리어 회사를 위한 새로운 기준.</text>
+
+  <!-- 메타 라인 -->
+  <text class="meta" x="600" y="490" text-anchor="middle">인테리어 현장관리 프로그램 · 직원관리 프로그램</text>
+
+  <!-- 하단 도메인 -->
+  <text x="600" y="568" text-anchor="middle" font-family="'Noto Sans KR', sans-serif" font-weight="600" font-size="16" fill="#0D2444" letter-spacing="3px">FIELDON.CO.KR</text>
+</svg>
