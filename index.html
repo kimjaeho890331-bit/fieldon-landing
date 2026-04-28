@@ -51,6 +51,8 @@
   .nav-right a:hover{color:var(--black)}
   .nav-cta{padding:9px 24px;background:var(--black);color:white!important;font-size:13px;font-weight:600;border-radius:10px;transition:transform .2s,box-shadow .2s}
   .nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.15)}
+  .nav-line{padding:8px 18px;border:1.5px solid var(--gray-300);color:var(--black)!important;font-size:13px;font-weight:600;border-radius:10px;transition:border-color .2s,background .2s}
+  .nav-line:hover{border-color:var(--black);background:var(--gray-100)}
 
   /* ── Hero ── */
   .hero{
@@ -85,6 +87,14 @@
     transition:transform .2s,box-shadow .2s;
   }
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+  .btn-line{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:14px 32px;background:white;color:var(--black);
+    font-size:15px;font-weight:700;border-radius:14px;
+    border:1.5px solid var(--gray-300);
+    text-decoration:none;transition:border-color .2s,background .2s,transform .2s;
+  }
+  .btn-line:hover{border-color:var(--black);background:var(--gray-100);transform:translateY(-2px)}
   .btn-ghost{font-size:14px;color:var(--gray-500);text-decoration:none;font-weight:500;transition:color .2s}
   .btn-ghost:hover{color:var(--black)}
 
@@ -223,6 +233,15 @@
     text-decoration:none;transition:transform .2s,box-shadow .2s;
   }
   .btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(255,255,255,.15)}
+  .btn-line-dark{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:14px 38px;background:transparent;color:white;
+    font-size:15px;font-weight:700;border-radius:14px;
+    border:1.5px solid rgba(255,255,255,.3);
+    text-decoration:none;transition:border-color .2s,background .2s,transform .2s;
+  }
+  .btn-line-dark:hover{border-color:white;background:rgba(255,255,255,.06);transform:translateY(-2px)}
+  .cta-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center}
 
   /* ── Footer ── */
   .footer{padding:48px 24px;border-top:1px solid var(--gray-200)}
@@ -248,8 +267,8 @@
   <div class="nav-right">
     <a href="#features">기능</a>
     <a href="#ai">AI 비서</a>
-    <a href="https://app.fieldon.co.kr/guide">사용 가이드</a>
-    <a href="https://app.fieldon.co.kr/" class="nav-cta">베타 신청</a>
+    <a href="https://app.fieldon.co.kr/guide" class="nav-line">사용 가이드</a>
+    <a href="https://app.fieldon.co.kr/" class="nav-cta">무료 체험</a>
   </div>
 </nav>
 
@@ -260,7 +279,10 @@
   <p class="hero-slogan reveal reveal-d2">현장을 켜다.</p>
   <p class="hero-sub reveal reveal-d3">세상에 없던, 인테리어 회사를 위한 새로운 기준.<br><span style="font-size:.75em;color:var(--gray-500);font-weight:500">인테리어 현장관리 프로그램 · 직원관리 프로그램</span></p>
   <div class="hero-actions reveal reveal-d4">
-    <a href="https://app.fieldon.co.kr/" class="btn-primary">베타 신청하기
+    <a href="https://app.fieldon.co.kr/" class="btn-primary">무료 체험하기
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+    <a href="https://app.fieldon.co.kr/guide" class="btn-line">사용 가이드
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
     </a>
     <a href="#story" class="btn-ghost">더 알아보기 →</a>
@@ -472,10 +494,16 @@
 <section class="cta">
   <h2 class="reveal">회사의 기준을<br>세워드립니다.</h2>
   <p class="reveal reveal-d1">클로즈드 베타 진행 중입니다.<br>지금 바로 무료로 시작해보세요.</p>
-  <a href="https://app.fieldon.co.kr/" class="btn-white reveal reveal-d2">
-    무료로 시작하기
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-  </a>
+  <div class="cta-actions reveal reveal-d2">
+    <a href="https://app.fieldon.co.kr/" class="btn-white">
+      무료 체험하기
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+    <a href="https://app.fieldon.co.kr/guide" class="btn-line-dark">
+      사용 가이드 보기
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+  </div>
 </section>
 
 <!-- ═══ Footer ═══ -->
