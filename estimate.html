@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>인테리어 물량산출 — FIELDON</title>
+<meta name="description" content="인테리어 공정별 발주서 즉시 출력. 면적 직접 수정 · 브랜드별 마루 선택 · 무료.">
+<meta property="og:title" content="인테리어 물량산출 — FIELDON">
+<meta property="og:description" content="공정별 발주 수량·금액을 한 줄로 명확하게.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#0a0a0a;--dark:#1a1a1a;--gray-800:#333;--gray-700:#555;--gray-500:#888;
+  --gray-400:#aaa;--gray-300:#ccc;--gray-200:#e5e5e5;--gray-100:#f5f5f5;
+  --white:#fafafa;--accent:#0D2444;--orange:#E8751A;--orange-light:#FFF4EC;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--white);color:var(--dark);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,250,250,0.85);backdrop-filter:blur(16px);padding:0 clamp(20px,4vw,48px);height:60px;display:flex;align-items:center;justify-content:space-between;transition:box-shadow .3s}
+.nav-logo{font-family:'Instrument Sans',sans-serif;font-size:20px;font-weight:800;color:var(--black);letter-spacing:-.5px;text-decoration:none}
+.nav-right{display:flex;align-items:center;gap:22px}
+.nav-right a{font-size:14px;color:var(--gray-700);text-decoration:none;font-weight:600}
+.nav-right a:hover{color:var(--black)}
+.nav-cta{padding:8px 20px;background:var(--black);color:white!important;font-size:13px;font-weight:600;border-radius:8px}
+.nav-ghost{padding:7px 12px;color:var(--gray-700)!important;font-size:13px;font-weight:600;border-radius:8px}
+.nav-active{color:var(--black)!important;font-weight:700}
+@media(max-width:780px){.nav-right{gap:10px}.nav-right a:not(.nav-cta):not(.nav-active){display:none}}
+
+/* HERO */
+.hero{padding:78px 20px 12px;text-align:center;max-width:760px;margin:0 auto}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:3px 11px;border:1px solid var(--gray-200);border-radius:100px;background:white;margin-bottom:8px;font-size:10px;font-weight:500;color:var(--gray-500);letter-spacing:.8px}
+.hero-badge-dot{width:5px;height:5px;border-radius:50%;background:#22C55E}
+.hero h1{font-size:clamp(22px,3.5vw,30px);font-weight:900;letter-spacing:-1px;line-height:1.15;margin-bottom:4px;color:var(--black)}
+.hero p{font-size:12px;color:var(--gray-500);font-weight:400}
+
+/* Container */
+.container{max-width:1200px;margin:0 auto;padding:0 16px 60px}
+
+/* Layout 2-col */
+.layout{display:grid;grid-template-columns:380px 1fr;gap:16px;align-items:start;margin-top:14px}
+@media(max-width:980px){.layout{grid-template-columns:1fr}}
+
+/* Sidebar */
+.sidebar{position:sticky;top:72px}
+@media(max-width:880px){.sidebar{position:static;top:auto}}
+
+.step-header{display:flex;align-items:center;gap:8px;margin:0 0 8px}
+.step-tag{background:var(--orange);color:white;padding:2px 8px;border-radius:5px;font-size:9px;letter-spacing:.5px;font-weight:700}
+.step-title{font-size:13px;font-weight:700;color:var(--dark);letter-spacing:.2px}
+.step-sub{font-size:10px;color:var(--gray-500);margin-left:4px}
+
+/* STEP 1 */
+.s1-wrap{background:white;border:1px solid var(--gray-200);border-radius:10px;padding:12px;max-height:calc(100vh - 100px);overflow-y:auto}
+@media(max-width:880px){.s1-wrap{max-height:none}}
+.s1-wrap::-webkit-scrollbar{width:4px}
+.s1-wrap::-webkit-scrollbar-thumb{background:var(--gray-300);border-radius:4px}
+.s1-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-bottom:8px;border-bottom:1px dashed var(--gray-200)}
+.s1-top label{font-size:11px;font-weight:600;color:var(--gray-700)}
+.s1-top input{padding:5px 8px;border:1px solid var(--gray-200);border-radius:6px;font-size:12px;font-family:inherit;width:70px;outline:none;color:var(--dark)}
+.s1-top input:focus{border-color:var(--black)}
+.s1-top .unit{font-size:10px;color:var(--gray-500);margin-left:-4px}
+
+.space-rows{display:flex;flex-direction:column;gap:6px}
+.space-row{background:var(--gray-100);border-radius:8px;padding:8px 10px;border:1.5px solid transparent;transition:border-color .15s}
+.space-row:hover{border-color:var(--gray-300)}
+.space-row-head{display:flex;align-items:center;gap:4px;margin-bottom:6px}
+.space-row .name-input{flex:1;font-size:13px;font-weight:700;padding:3px 5px;border:1px solid transparent;background:transparent;border-radius:4px;font-family:inherit;outline:none;color:var(--dark);min-width:0}
+.space-row .name-input:focus{border-color:var(--orange);background:white}
+.space-row .space-remove{width:22px;height:22px;border:none;background:transparent;color:var(--gray-400);font-size:14px;cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0;line-height:1;flex-shrink:0}
+.space-row .space-remove:hover{background:#FEE2E2;color:#DC2626}
+
+.dim-area-row{display:flex;gap:4px;align-items:center;margin-bottom:3px}
+.dim-area-row input{flex:1;min-width:48px;width:100%;padding:5px 6px;font-size:11px;border:1px solid var(--gray-200);border-radius:5px;background:white;font-family:inherit;outline:none;color:var(--dark);text-align:right}
+.dim-area-row input:focus{border-color:var(--orange)}
+.dim-area-row .op{color:var(--gray-400);font-size:11px;flex-shrink:0;padding:0 1px}
+.dim-area-row .area-input{font-weight:700;color:var(--orange)}
+.dim-area-row .area-input.auto{background:var(--orange-light);border-color:transparent}
+.dim-area-row .area-unit{font-size:11px;font-weight:700;color:var(--orange);flex-shrink:0;margin-left:2px}
+.dim-hint{font-size:9px;color:var(--gray-400);text-align:right;line-height:1.4}
+
+.s1-foot{margin-top:8px;display:flex;flex-direction:column;gap:4px}
+.add-space{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:7px;border:1.5px dashed var(--gray-300);background:white;border-radius:7px;font-size:11px;font-weight:600;color:var(--gray-500);cursor:pointer;font-family:inherit}
+.add-space:hover{border-color:var(--orange);color:var(--orange);background:var(--orange-light)}
+.s1-foot .examples{font-size:10px;color:var(--gray-400);text-align:center;line-height:1.5}
+.s1-foot .total{margin-top:6px;padding-top:6px;border-top:1px dashed var(--gray-200);font-size:11px;color:var(--gray-700);display:flex;justify-content:space-between}
+.s1-foot .total strong{color:var(--orange);font-weight:700}
+
+/* STEP 2 */
+.main{display:flex;flex-direction:column;gap:0}
+
+.proc-tabs{display:flex;gap:4px;background:var(--gray-100);padding:4px;border-radius:10px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.proc-tabs::-webkit-scrollbar{height:0}
+.proc-tab{flex:1;min-width:80px;padding:9px 10px;background:transparent;border:none;border-radius:7px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;color:var(--gray-700);transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
+.proc-tab:hover{background:rgba(255,255,255,.6);color:var(--black)}
+.proc-tab.active{background:white;color:var(--black);box-shadow:0 1px 3px rgba(0,0,0,.08);font-weight:700}
+.proc-tab .dot{width:6px;height:6px;border-radius:50%;background:var(--gray-300);flex-shrink:0;transition:background .15s}
+.proc-tab.on .dot{background:#22C55E}
+@media(max-width:560px){.proc-tab{min-width:66px;padding:8px 6px;font-size:11px}}
+
+.proc-panel{background:white;border:1px solid var(--gray-200);border-radius:10px;padding:14px 16px;margin-top:8px}
+.panel-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px dashed var(--gray-200)}
+.panel-head .title{display:flex;align-items:center;gap:8px}
+.panel-head .title b{font-size:14px;font-weight:800;color:var(--dark)}
+.panel-head .title span{font-size:10px;color:var(--gray-500)}
+.panel-head .badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:.4px;margin-left:auto}
+.panel-head .badge.use{background:#DCFCE7;color:#15803D}
+.panel-head .badge.idle{background:var(--gray-100);color:var(--gray-500)}
+
+.applied-label{font-size:10px;font-weight:700;color:var(--gray-500);letter-spacing:.8px;margin-bottom:6px}
+.applied-grid{display:flex;flex-wrap:wrap;gap:6px 16px;margin-bottom:12px}
+.applied-chip{display:inline-flex;align-items:center;gap:6px;padding:2px 0;cursor:pointer;background:transparent;border:none;user-select:none;color:var(--gray-700)}
+.applied-chip:hover{color:var(--black)}
+.applied-chip.on{color:var(--orange)}
+.applied-chip input{display:none}
+.applied-chip .check{width:13px;height:13px;border:1.5px solid var(--gray-400);border-radius:3px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:white;transition:all .15s}
+.applied-chip:hover .check{border-color:var(--gray-700)}
+.applied-chip.on .check{background:var(--orange);border-color:var(--orange)}
+.applied-chip.on .check::after{content:"";width:5px;height:3px;border-left:1.5px solid white;border-bottom:1.5px solid white;transform:rotate(-45deg);margin-top:-1px}
+.applied-chip .label{font-size:12px;font-weight:600;display:flex;align-items:center;gap:4px}
+.applied-chip .label .a{font-size:10px;color:var(--gray-400);font-weight:500}
+.applied-chip.on .label .a{color:rgba(232,117,26,.7)}
+
+.opts-label{font-size:10px;font-weight:700;color:var(--gray-500);letter-spacing:.8px;margin-bottom:6px}
+.opts-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px}
+.field-group{display:flex;flex-direction:column;gap:2px}
+.field-group label{font-size:10px;font-weight:600;color:var(--gray-500);letter-spacing:.3px}
+.field-group input,.field-group select{padding:6px 9px;border:1px solid var(--gray-200);border-radius:6px;font-size:12px;font-family:inherit;outline:none;background:white;color:var(--dark);width:100%}
+.field-group input:focus,.field-group select:focus{border-color:var(--black)}
+.preset-row{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
+.preset-btn{padding:3px 9px;border:1px solid var(--gray-200);border-radius:5px;font-size:10px;font-weight:600;cursor:pointer;background:white;color:var(--gray-700);font-family:inherit}
+.preset-btn:hover{border-color:var(--orange);color:var(--orange)}
+.preset-btn.active{background:var(--orange);color:white;border-color:var(--orange)}
+.opts-hint{font-size:10px;color:var(--gray-400);margin-top:5px;line-height:1.5}
+
+.floor-preview{margin-top:8px;padding:8px 10px;background:var(--orange-light);border:1px solid #FED7AA;border-radius:6px;font-size:11px;color:#9A3412;line-height:1.5}
+.floor-preview b{color:var(--orange)}
+
+/* 벽 치수표 · 타일 시공 표 */
+.wall-table{margin-top:10px;background:var(--gray-100);border-radius:6px;padding:8px 10px}
+.wall-table-title{font-size:10px;font-weight:700;color:var(--gray-700);margin-bottom:6px;letter-spacing:.3px}
+.wall-row{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:6px;margin-bottom:4px;align-items:center}
+.wall-row:last-child{margin-bottom:0}
+.wall-row .name{font-size:11px;font-weight:600;color:var(--dark);padding-left:2px}
+.wall-row input,.wall-row select{padding:4px 7px;border:1px solid var(--gray-200);border-radius:5px;font-size:11px;font-family:inherit;outline:none;background:white;color:var(--dark);width:100%}
+.wall-row input:focus,.wall-row select:focus{border-color:var(--black)}
+.tile-row{display:grid;grid-template-columns:1.1fr .9fr 1.1fr .6fr;gap:5px;margin-bottom:4px;align-items:center}
+@media(max-width:520px){.tile-row{grid-template-columns:1fr 1fr;gap:5px}.tile-row .name{grid-column:1/-1}}
+.tile-row:last-child{margin-bottom:0}
+.tile-row .name{font-size:11px;font-weight:600;color:var(--dark);padding-left:2px}
+.tile-row .name .a{font-size:10px;color:var(--gray-400);font-weight:500;margin-left:3px}
+.tile-row select,.tile-row input{padding:4px 7px;border:1px solid var(--gray-200);border-radius:5px;font-size:11px;font-family:inherit;outline:none;background:white;color:var(--dark);width:100%}
+.tile-row select:focus,.tile-row input:focus{border-color:var(--black)}
+.tile-row input{text-align:right}
+.wood-row{display:grid;grid-template-columns:.9fr .75fr .75fr .9fr 1.3fr;gap:5px;margin-bottom:4px;align-items:center}
+@media(max-width:560px){.wood-row{grid-template-columns:1fr 1fr;gap:5px}.wood-row .name{grid-column:1/-1}.wood-row .wood-result{grid-column:1/-1;text-align:left;padding-top:3px}}
+.wood-row:last-child{margin-bottom:0}
+.wood-row .name{font-size:11px;font-weight:600;color:var(--dark);padding-left:2px}
+.wood-row input,.wood-row select{padding:4px 7px;border:1px solid var(--gray-200);border-radius:5px;font-size:11px;font-family:inherit;outline:none;background:white;color:var(--dark);width:100%}
+.wood-row input:focus,.wood-row select:focus{border-color:var(--black)}
+.wood-row.header{margin-bottom:2px;padding-bottom:3px;border-bottom:1px dashed var(--gray-300)}
+.wood-row.header > div{font-size:9px;color:var(--gray-500);font-weight:700;letter-spacing:.5px;text-align:center;padding:0}
+.wood-row.header > div:first-child{text-align:left;padding-left:2px}
+.wood-row.header > div:last-child{text-align:right;padding-right:2px}
+.wood-row .wood-result{font-size:10px;font-weight:700;color:var(--orange);text-align:right;line-height:1.4;padding-right:2px;white-space:nowrap}
+.wall-empty{font-size:10px;color:var(--gray-400);font-style:italic;padding:2px 0}
+
+/* Calculate */
+.calc-wrap{display:flex;justify-content:center;margin:18px 0 8px}
+.btn-calc{display:inline-flex;align-items:center;gap:7px;padding:11px 36px;background:var(--black);color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .2s,box-shadow .2s}
+.btn-calc:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,.18)}
+@media(max-width:560px){.btn-calc{width:100%;justify-content:center}}
+
+/* RESULT — 공종별 주문서 */
+.result-box{background:var(--black);border-radius:14px;padding:18px;color:white;margin-top:14px}
+.result-section-title{font-size:11px;font-weight:600;color:rgba(255,255,255,.5);margin:0 0 12px;letter-spacing:1px}
+
+.proc-group{background:rgba(255,255,255,.04);border-radius:10px;padding:14px;margin-bottom:10px;border:1px solid rgba(255,255,255,.08)}
+.proc-group:last-child{margin-bottom:0}
+.proc-group-title{font-size:13px;font-weight:800;color:var(--orange);letter-spacing:1.5px;margin-bottom:10px;display:flex;align-items:center;gap:8px;text-transform:uppercase}
+.proc-group-title::before{content:"";width:4px;height:14px;background:var(--orange);border-radius:2px}
+
+.order-item{background:rgba(255,255,255,.05);border-radius:8px;padding:11px 14px;margin-bottom:6px;border-left:3px solid var(--orange)}
+.order-item:last-child{margin-bottom:0}
+.order-item-head{display:flex;align-items:center;flex-wrap:wrap;gap:6px 8px;margin-bottom:4px}
+.cat-tag{font-size:9px;font-weight:700;background:rgba(232,117,26,.18);color:var(--orange);padding:2px 7px;border-radius:4px;letter-spacing:.5px}
+.cat-tag.wall{background:rgba(96,165,250,.18);color:#93C5FD}
+.cat-tag.both{background:rgba(167,139,250,.18);color:#C4B5FD}
+.cat-tag.finish{background:rgba(132,204,22,.18);color:#BEF264}
+.order-item-name{font-size:13px;font-weight:700;color:white;line-height:1.3}
+.order-item-qty{margin-left:auto;font-size:14px;font-weight:700;color:rgba(255,255,255,.85);line-height:1;white-space:nowrap;display:inline-flex;align-items:baseline;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.order-item-qty .v{color:var(--orange);font-size:22px;font-weight:900;letter-spacing:-.5px}
+.order-item-qty .verb{font-size:9px;font-weight:700;color:var(--orange);background:rgba(232,117,26,.14);padding:2px 6px;border-radius:4px;margin-left:4px;letter-spacing:.5px;align-self:center}
+.order-item-meta{font-size:10px;color:rgba(255,255,255,.5);line-height:1.55;margin-bottom:4px}
+.order-item-price{font-size:12px;font-weight:800;color:#FCD34D;margin-bottom:4px}
+.order-item-price .per{font-size:9px;color:rgba(252,211,77,.55);font-weight:500;margin-left:4px}
+.calc-list{list-style:none;padding:6px 0 0;margin:6px 0 0;display:flex;flex-direction:column;gap:3px;border-top:1px dashed rgba(255,255,255,.12)}
+.calc-list li{font-size:10px;color:rgba(255,255,255,.62);padding-left:11px;position:relative;line-height:1.6;word-break:break-all}
+.calc-list li::before{content:"›";position:absolute;left:0;color:var(--orange);font-weight:700}
+.calc-list li strong{color:white;font-weight:700}
+
+.no-items{font-size:11px;color:rgba(255,255,255,.4);font-style:italic;padding:6px 0}
+
+.disclaimer{margin-top:14px;padding:10px 14px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:6px;font-size:10px;color:#9A3412;display:flex;gap:6px;line-height:1.55}
+
+.cta-section{background:var(--black);color:white;text-align:center;padding:48px 20px}
+.cta-section h2{font-size:clamp(20px,3.5vw,30px);font-weight:900;letter-spacing:-.8px;line-height:1.25;margin-bottom:8px}
+.cta-section p{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:18px}
+.btn-white{display:inline-block;padding:11px 28px;background:white;color:var(--black);font-size:13px;font-weight:700;border-radius:8px;text-decoration:none}
+
+.footer{text-align:center;padding:20px;background:var(--white);color:var(--gray-400);font-size:10px;border-top:1px solid var(--gray-200)}
+
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">FIELDON</a>
+  <div class="nav-right">
+    <a href="index.html">홈</a>
+    <a href="estimate.html" class="nav-active">물량산출</a>
+    <a href="https://app.fieldon.co.kr/guide" class="nav-ghost">가이드</a>
+    <a href="https://app.fieldon.co.kr/" class="nav-cta">시작하기</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge"><span class="hero-badge-dot"></span><span>면적 직접 수정 · 발주서 즉시 출력 · 무료</span></div>
+  <h1>인테리어 물량산출</h1>
+  <p>좌측에 항목·면적을 입력하고, 우측에서 공정별 적용 체크 → 발주 수량·금액 즉시 산출.</p>
+</section>
+
+<div class="container">
+
+  <div class="layout">
+
+    <aside class="sidebar">
+      <div class="step-header">
+        <span class="step-tag">STEP 1</span>
+        <span class="step-title">시공 항목 정의</span>
+      </div>
+      <div class="s1-wrap">
+        <div class="s1-top">
+          <label for="commonHeight">천장</label>
+          <input type="number" id="commonHeight" value="2400" inputmode="numeric">
+          <span class="unit">mm (공통)</span>
+        </div>
+        <div id="spaceRows" class="space-rows"></div>
+        <div class="s1-foot">
+          <button type="button" class="add-space" id="btnAddSpace">+ 항목 추가</button>
+          <div class="examples">예: 거실, 방1, 침대 헤드, TV장, 욕실 벽 등<br>면적은 자동 계산되며 직접 수정도 가능</div>
+          <div class="total" id="s1Total"></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="step-header">
+        <span class="step-tag">STEP 2</span>
+        <span class="step-title">공정 선택</span>
+        <span class="step-sub">탭 클릭 → 적용 항목 체크 → 옵션 입력 → 자동 발주 포함</span>
+      </div>
+      <div id="procTabs" class="proc-tabs"></div>
+      <div id="procPanel" class="proc-panel"></div>
+
+      <div class="calc-wrap">
+        <button type="button" class="btn-calc" id="btnCalc">⚡ 계산하기</button>
+      </div>
+
+      <div id="result"></div>
+
+      <div class="disclaimer">
+        <span style="font-size:12px;flex-shrink:0">⚠</span>
+        <span>참고용 결과입니다. 실제 시공 시 현장 상황(절단·패턴·LOT·시공 방식)에 따라 자재 수량이 달라질 수 있으니 최종 발주 전 반드시 현장 확인하세요.</span>
+      </div>
+    </main>
+
+  </div>
+
+</div>
+
+<section class="cta-section">
+  <h2>현장관리도 이렇게<br>쉬웠으면 좋겠다</h2>
+  <p>FIELDON으로 현장 · 직원 · 정산을 한 곳에서.</p>
+  <a href="https://app.fieldon.co.kr/" class="btn-white">무료로 시작하기 →</a>
+</section>
+
+<footer class="footer">&copy; 2026 FIELDON. All rights reserved.</footer>
+
+<script>
+/* ════════ DATA ════════ */
+var FLOOR_PRODUCTS = [
+  {brand:"인쇼", name:"인쇼마루 190",   w:190, l:1900, t:7,    loss:10, m2box:2.888, price:159000},
+  {brand:"동화", name:"강화마루 스톤",  w:325, l:800,  t:8,    loss:10, m2box:3.12,  price:112000},
+  {brand:"동화", name:"강화마루 클릭-S",w:190, l:1200, t:7,    loss:7,  m2box:3.224, price:100000},
+  {brand:"한솔", name:"강화마루 우드100",w:100,l:800,  t:8,    loss:5,  m2box:1.6,   price:60000},
+  {brand:"한솔", name:"강화마루 우드190",w:190,l:1200, t:8,    loss:7,  m2box:1.595, price:55000},
+  {brand:"구정", name:"헤리티지 애쉬",  w:190, l:1900, t:10.5, loss:10, m2box:2.166, price:171000},
+  {brand:"구정", name:"헤리티지 오크",  w:190, l:1900, t:10.5, loss:10, m2box:2.166, price:176000},
+  {brand:"구정", name:"헤리티지 탄화목",w:190, l:1900, t:10.5, loss:10, m2box:2.166, price:0},
+  {brand:"구정", name:"헤리티지 티크",  w:190, l:1900, t:10.5, loss:10, m2box:2.166, price:221000},
+  {brand:"이건", name:"솔레190T3 티크",w:190, l:1900, t:14,   loss:10, m2box:2.17,  price:359000},
+  {brand:"이건", name:"솔레190T3 오크",w:190, l:1900, t:14,   loss:10, m2box:2.17,  price:262000},
+  {brand:"이건", name:"솔레190T3 착색",w:190, l:1900, t:14,   loss:10, m2box:2.17,  price:229000},
+  {brand:"노바", name:"원목 ST-K",      w:190, l:1900, t:11,   loss:10, m2box:2.9,   price:234000}
+];
+
+function brandList() {
+  var seen = {}; var arr = [];
+  FLOOR_PRODUCTS.forEach(function(p) { if (!seen[p.brand]) { seen[p.brand] = true; arr.push(p.brand); } });
+  return arr;
+}
+function productsOfBrand(brand) {
+  var arr = [];
+  FLOOR_PRODUCTS.forEach(function(p, i) { if (p.brand === brand) arr.push({ idx:i, product:p }); });
+  return arr;
+}
+
+var TILE_SIZES = [
+  {label:"300×300",   w:300,  h:300,  pcs:11, m2:0.99},
+  {label:"300×600",   w:300,  h:600,  pcs:5,  m2:0.9},
+  {label:"600×600",   w:600,  h:600,  pcs:4,  m2:1.44},
+  {label:"600×1200",  w:600,  h:1200, pcs:2,  m2:1.44},
+  {label:"800×800",   w:800,  h:800,  pcs:3,  m2:1.92},
+  {label:"900×900",   w:900,  h:900,  pcs:2,  m2:1.62},
+  {label:"1200×1200", w:1200, h:1200, pcs:2,  m2:1.88}
+];
+
+var DEFAULT_ROOMS = [
+  {name:"거실/주방",   w:5000, l:4000},
+  {name:"방1",        w:3000, l:3000},
+  {name:"방2",        w:3000, l:2500},
+  {name:"공용 화장실", w:2000, l:1500},
+  {name:"베란다",     w:3000, l:1500}
+];
+
+var PROCESSES = [
+  {key:"wallpaper", name:"도배",   desc:"실크 도배지 (벽 둘레×높이)"},
+  {key:"floor",     name:"바닥재", desc:"마루 박스 수 (항목 면적)"},
+  {key:"tile",      name:"타일",   desc:"규격별 매수·박스"},
+  {key:"brick",     name:"벽돌",   desc:"시멘트벽돌 매수"},
+  {key:"cement",    name:"시멘트", desc:"바닥 미장 포대"},
+  {key:"wood",      name:"목작업", desc:"다루끼·석고/MDF"},
+  {key:"film",      name:"필름",   desc:"인테리어 필름 롤 (시공면=면적)"}
+];
+
+/* ════════ STATE ════════ */
+var nextSpaceId = 1;
+function makeSpace(name, w, l) {
+  return { id: nextSpaceId++, name: name, w: w, l: l, customArea: null };
+}
+
+var state = {
+  commonHeight: 2400,
+  spaces: DEFAULT_ROOMS.map(function(r) { return makeSpace(r.name, r.w, r.l); }),
+  active: "wallpaper",
+  proc: {
+    wallpaper: { applied:{}, rollW:1060, rollLen:15.6 },
+    floor:     { applied:{}, brand:"인쇼", productIdx:0 },
+    tile:      { applied:{}, perItem:{} },
+    brick:     { applied:{}, type:"half", loss:5, dims:{} },
+    cement:    { applied:{}, t:30, bag:25, loss:5 },
+    wood:      { applied:{}, defaultFinish:"gypsum", dims:{}, lumberLen:3.6, bundleQty:50 },
+    film:      { applied:{}, filmW:1000, rollLen:25 }
+  }
+};
+
+/* ════════ HELPERS ════════ */
+function calcArea(s) {
+  if (s.customArea != null && !isNaN(s.customArea) && s.customArea > 0) return s.customArea;
+  return (s.w / 1000) * (s.l / 1000);
+}
+function calcPerimeter(s) {
+  return 2 * (s.w / 1000 + s.l / 1000);
+}
+function isAuto(s) { return s.customArea == null; }
+function hasApplied(procKey) {
+  var ap = state.proc[procKey].applied;
+  for (var k in ap) if (ap[k]) return true;
+  return false;
+}
+
+/* ════════ STEP 1 사이드바 ════════ */
+function renderSpaces() {
+  var wrap = document.getElementById("spaceRows");
+  wrap.innerHTML = "";
+  for (var i = 0; i < state.spaces.length; i++) wrap.appendChild(renderSpaceRow(state.spaces[i]));
+  updateTotal();
+  renderProcPanel();
+  renderTabs();
+}
+
+function renderSpaceRow(s) {
+  var row = document.createElement("div");
+  row.className = "space-row";
+
+  var head = document.createElement("div");
+  head.className = "space-row-head";
+  head.innerHTML =
+    '<input class="name-input" type="text" data-bind="name" value="' + esc(s.name) + '" placeholder="항목명">' +
+    '<button type="button" class="space-remove" title="항목 삭제">&times;</button>';
+  row.appendChild(head);
+
+  head.querySelector("input").addEventListener("input", function(e) {
+    s.name = e.target.value;
+    document.querySelectorAll('[data-applied-space="' + s.id + '"] .label .nm').forEach(function(el) { el.textContent = s.name; });
+  });
+  head.querySelector(".space-remove").addEventListener("click", function() {
+    var idx = state.spaces.indexOf(s);
+    if (idx >= 0) {
+      state.spaces.splice(idx, 1);
+      PROCESSES.forEach(function(p) {
+        delete state.proc[p.key].applied[s.id];
+        if (state.proc[p.key].dims) delete state.proc[p.key].dims[s.id];
+      });
+      renderSpaces();
+    }
+  });
+
+  // 가로 × 세로 = 면적 ㎡ (한 줄)
+  var dimArea = document.createElement("div");
+  dimArea.className = "dim-area-row";
+  dimArea.innerHTML =
+    '<input type="number" inputmode="numeric" data-k="w" value="' + s.w + '" placeholder="가로">' +
+    '<span class="op">×</span>' +
+    '<input type="number" inputmode="numeric" data-k="l" value="' + s.l + '" placeholder="세로">' +
+    '<span class="op">=</span>' +
+    '<input type="number" step="0.01" inputmode="decimal" data-k="customArea" class="area-input' + (isAuto(s) ? " auto" : "") + '" value="' + calcArea(s).toFixed(2) + '" placeholder="자동">' +
+    '<span class="area-unit">㎡</span>';
+  row.appendChild(dimArea);
+
+  var hintEl = document.createElement("div");
+  hintEl.className = "dim-hint";
+  row.appendChild(hintEl);
+  function updateHint() {
+    hintEl.textContent = (isAuto(s) ? "자동 면적" : "수동 면적") + " · 둘레 " + calcPerimeter(s).toFixed(1) + "m · 면적칸 더블클릭 → 자동";
+  }
+  updateHint();
+
+  var wInp = dimArea.querySelector('input[data-k="w"]');
+  var lInp = dimArea.querySelector('input[data-k="l"]');
+  var aInp = dimArea.querySelector('input[data-k="customArea"]');
+
+  function syncAfterDim() {
+    if (isAuto(s)) {
+      aInp.value = calcArea(s).toFixed(2);
+      aInp.classList.add("auto");
+    }
+    updateHint();
+    refreshChipMeta(s);
+    updateTotal();
+  }
+
+  wInp.addEventListener("input", function() {
+    s.w = Number(wInp.value) || 0;
+    syncAfterDim();
+  });
+  lInp.addEventListener("input", function() {
+    s.l = Number(lInp.value) || 0;
+    syncAfterDim();
+  });
+
+  aInp.addEventListener("input", function() {
+    var v = aInp.value.trim();
+    if (v === "") {
+      s.customArea = null;
+      aInp.classList.add("auto");
+    } else {
+      var n = Number(v);
+      if (!isNaN(n) && n > 0) {
+        s.customArea = n;
+        aInp.classList.remove("auto");
+      }
+    }
+    updateHint();
+    refreshChipMeta(s);
+    updateTotal();
+  });
+  // 면적칸 더블클릭 → 자동 모드 복귀
+  aInp.addEventListener("dblclick", function() {
+    s.customArea = null;
+    aInp.value = calcArea(s).toFixed(2);
+    aInp.classList.add("auto");
+    updateHint();
+    refreshChipMeta(s);
+    updateTotal();
+  });
+
+  return row;
+}
+
+function refreshChipMeta(s) {
+  document.querySelectorAll('[data-applied-space="' + s.id + '"] .label .a').forEach(function(el) {
+    el.textContent = "(" + calcArea(s).toFixed(1) + "㎡)";
+  });
+  document.querySelectorAll('[data-applied-space="' + s.id + '"] .label .nm').forEach(function(el) {
+    el.textContent = s.name;
+  });
+}
+
+function updateTotal() {
+  var sum = state.spaces.reduce(function(a, s) { return a + calcArea(s); }, 0);
+  var el = document.getElementById("s1Total");
+  if (state.spaces.length === 0) {
+    el.innerHTML = '<span style="color:var(--gray-400);font-style:italic">항목을 1개 이상 추가하세요</span>';
+  } else {
+    el.innerHTML = '<span>항목 ' + state.spaces.length + '개</span><strong>합 ' + sum.toFixed(2) + '㎡</strong>';
+  }
+}
+
+/* ════════ STEP 2 공정 탭 ════════ */
+function renderTabs() {
+  var wrap = document.getElementById("procTabs");
+  wrap.innerHTML = "";
+  PROCESSES.forEach(function(meta) {
+    var btn = document.createElement("button");
+    btn.type = "button";
+    var on = hasApplied(meta.key);
+    btn.className = "proc-tab" + (state.active === meta.key ? " active" : "") + (on ? " on" : "");
+    btn.innerHTML = '<span class="dot"></span>' + meta.name;
+    btn.addEventListener("click", function() {
+      state.active = meta.key;
+      renderTabs();
+      renderProcPanel();
+    });
+    wrap.appendChild(btn);
+  });
+}
+
+function renderProcPanel() {
+  var wrap = document.getElementById("procPanel");
+  var meta = PROCESSES.find(function(m) { return m.key === state.active; });
+  if (!meta) { wrap.innerHTML = ""; return; }
+  var p = state.proc[meta.key];
+
+  wrap.innerHTML = "";
+
+  var head = document.createElement("div");
+  head.className = "panel-head";
+  var on = hasApplied(meta.key);
+  head.innerHTML =
+    '<div class="title"><b>' + meta.name + '</b><span>· ' + esc(meta.desc) + '</span></div>' +
+    '<span class="badge ' + (on ? 'use' : 'idle') + '">' + (on ? '발주 포함' : '미적용') + '</span>';
+  wrap.appendChild(head);
+
+  var aLabel = document.createElement("div");
+  aLabel.className = "applied-label";
+  aLabel.textContent = "적용 항목 (체크된 항목만 발주 포함)";
+  wrap.appendChild(aLabel);
+
+  var grid = document.createElement("div");
+  grid.className = "applied-grid";
+  if (state.spaces.length === 0) {
+    var empty = document.createElement("div");
+    empty.className = "wall-empty";
+    empty.textContent = "좌측 STEP 1에서 항목을 먼저 추가하세요.";
+    grid.appendChild(empty);
+  } else {
+    state.spaces.forEach(function(s) {
+      grid.appendChild(makeAppliedChip(meta.key, s));
+    });
+  }
+  wrap.appendChild(grid);
+
+  if (meta.key === "brick" || meta.key === "wood") {
+    var wt = document.createElement("div");
+    wt.className = "wall-table";
+    wt.setAttribute("data-wall-table", meta.key);
+    wrap.appendChild(wt);
+    refreshWallTable(meta.key, wt);
+  }
+  if (meta.key === "tile") {
+    var tt = document.createElement("div");
+    tt.className = "wall-table";
+    tt.setAttribute("data-tile-table", "");
+    wrap.appendChild(tt);
+    refreshTileTable(tt);
+  }
+
+  var opts = buildOptionsSection(meta.key);
+  if (opts) {
+    var oLabel = document.createElement("div");
+    oLabel.className = "opts-label";
+    oLabel.style.marginTop = "10px";
+    oLabel.textContent = "공정 옵션";
+    wrap.appendChild(oLabel);
+    wrap.appendChild(opts);
+  }
+}
+
+function makeAppliedChip(procKey, space) {
+  var p = state.proc[procKey];
+  var checked = !!p.applied[space.id];
+  var chip = document.createElement("label");
+  chip.className = "applied-chip" + (checked ? " on" : "");
+  chip.setAttribute("data-applied-space", space.id);
+  chip.innerHTML = '<span class="check"></span><span class="label"><span class="nm">' + esc(space.name) + '</span><span class="a">(' + calcArea(space).toFixed(1) + '㎡)</span></span><input type="checkbox"' + (checked ? " checked" : "") + '>';
+  var cb = chip.querySelector("input");
+  cb.addEventListener("change", function() {
+    p.applied[space.id] = cb.checked;
+    if (cb.checked) chip.classList.add("on"); else chip.classList.remove("on");
+    if (procKey === "brick" || procKey === "wood") {
+      var wt = document.querySelector('[data-wall-table="' + procKey + '"]');
+      if (wt) refreshWallTable(procKey, wt);
+    }
+    if (procKey === "tile") {
+      var tt = document.querySelector('[data-tile-table]');
+      if (tt) refreshTileTable(tt);
+    }
+    renderTabs(); // dot 갱신
+    // panel head 배지 갱신
+    var head = document.querySelector('.panel-head .badge');
+    if (head) {
+      var on = hasApplied(procKey);
+      head.className = 'badge ' + (on ? 'use' : 'idle');
+      head.textContent = on ? '발주 포함' : '미적용';
+    }
+  });
+  return chip;
+}
+
+function refreshWallTable(procKey, wt) {
+  var p = state.proc[procKey];
+  wt.innerHTML = "";
+
+  var title = document.createElement("div");
+  title.className = "wall-table-title";
+  title.textContent = procKey === "wood"
+    ? "항목별 벽 가로·높이·마감재 + 즉시 산출 (체크된 항목만)"
+    : "항목별 벽 가로·높이 (체크된 항목만)";
+  wt.appendChild(title);
+
+  var any = state.spaces.some(function(s){ return p.applied[s.id]; });
+
+  if (procKey === "wood" && any) {
+    var hdr = document.createElement("div");
+    hdr.className = "wood-row header";
+    hdr.innerHTML = '<div>공간</div><div>가로 (mm)</div><div>높이 (mm)</div><div>마감재</div><div>산출</div>';
+    wt.appendChild(hdr);
+  }
+
+  for (var i = 0; i < state.spaces.length; i++) {
+    var s = state.spaces[i];
+    if (!p.applied[s.id]) continue;
+    if (!p.dims[s.id]) {
+      p.dims[s.id] = { wallW:3000, wallH:state.commonHeight || 2400 };
+      if (procKey === "wood") p.dims[s.id].finish = p.defaultFinish || "gypsum";
+    } else if (procKey === "wood" && !p.dims[s.id].finish) {
+      p.dims[s.id].finish = p.defaultFinish || "gypsum";
+    }
+    wt.appendChild(makeWallRow(procKey, p, s));
+  }
+  if (!any) {
+    var em = document.createElement("div");
+    em.className = "wall-empty";
+    em.textContent = "항목 체크 시 입력행이 표시됩니다.";
+    wt.appendChild(em);
+  }
+}
+
+function calcWoodItem(d) {
+  var Ww = d.wallW || 0, Hh = d.wallH || 0;
+  if (Ww <= 0 || Hh <= 0) return { darukiM:0, area:0, gyp:0, mdf:0, vertCount:0, braceCount:0 };
+  var vertCount = Math.ceil(Ww / 450) + 1;
+  var bays = vertCount - 1;
+  var oddBays = Math.ceil(bays / 2);
+  var evenBays = Math.floor(bays / 2);
+  var braceCount = (oddBays * 3) + (evenBays * 2);
+  var darukiM = +((vertCount * Hh/1000) + (2 * Ww/1000) + (braceCount * 0.45)).toFixed(1);
+  var area = (Ww * Hh) / 1e6;
+  var gyp = Math.ceil(area / 1.62);
+  var mdf = Math.ceil(area / 1.62);
+  return { darukiM:darukiM, area:area, gyp:gyp, mdf:mdf, vertCount:vertCount, braceCount:braceCount };
+}
+
+function formatWoodResult(d) {
+  var r = calcWoodItem(d);
+  if (r.darukiM === 0) return "—";
+  var finish = d.finish || "gypsum";
+  var t = "다루끼 " + r.darukiM.toFixed(1) + "m";
+  if (finish === "gypsum") t += " · 석고 " + r.gyp + "매";
+  else if (finish === "mdf") t += " · MDF " + r.mdf + "매";
+  else t += " · 석고 " + r.gyp + " + MDF " + r.mdf + "매";
+  return t;
+}
+
+function refreshTileTable(tt) {
+  var tp = state.proc.tile;
+  tt.innerHTML = "";
+
+  var title = document.createElement("div");
+  title.className = "wall-table-title";
+  title.textContent = "항목별 규격 · 시공 모드 · 로스율 (체크된 항목만)";
+  tt.appendChild(title);
+
+  var any = false;
+  for (var i = 0; i < state.spaces.length; i++) {
+    var s = state.spaces[i];
+    if (!tp.applied[s.id]) continue;
+    any = true;
+    if (!tp.perItem[s.id]) tp.perItem[s.id] = { sizeIdx:2, mode:"floor", loss:10 };
+    if (tp.perItem[s.id].sizeIdx == null) tp.perItem[s.id].sizeIdx = 2;
+    if (tp.perItem[s.id].mode == null) tp.perItem[s.id].mode = "floor";
+    if (tp.perItem[s.id].loss == null) tp.perItem[s.id].loss = 10;
+    tt.appendChild(makeTileRow(tp, s));
+  }
+  if (!any) {
+    var em = document.createElement("div");
+    em.className = "wall-empty";
+    em.textContent = "항목 체크 시 규격·시공 모드·로스율 행이 표시됩니다.";
+    tt.appendChild(em);
+  }
+}
+
+function makeTileRow(tp, space) {
+  var it = tp.perItem[space.id];
+  var row = document.createElement("div");
+  row.className = "tile-row";
+  var sizeOptions = "";
+  for (var i = 0; i < TILE_SIZES.length; i++) {
+    sizeOptions += '<option value="' + i + '"' + (it.sizeIdx === i ? " selected" : "") + '>' + TILE_SIZES[i].label + '</option>';
+  }
+  row.innerHTML =
+    '<div class="name">' + esc(space.name) + '<span class="a">(' + calcArea(space).toFixed(1) + '㎡)</span></div>' +
+    '<select data-key="sizeIdx">' + sizeOptions + '</select>' +
+    '<select data-key="mode">' +
+      '<option value="floor"' + (it.mode==="floor"?" selected":"") + '>바닥만</option>' +
+      '<option value="wall"' + (it.mode==="wall"?" selected":"") + '>벽만</option>' +
+      '<option value="both"' + (it.mode==="both"?" selected":"") + '>욕실 통합</option>' +
+    '</select>' +
+    '<input type="number" inputmode="numeric" data-key="loss" placeholder="로스 %" value="' + it.loss + '">';
+  row.querySelector('select[data-key="sizeIdx"]').addEventListener("change", function(e) { it.sizeIdx = Number(e.target.value); });
+  row.querySelector('select[data-key="mode"]').addEventListener("change", function(e) { it.mode = e.target.value; });
+  row.querySelector('input[data-key="loss"]').addEventListener("input", function(e) { it.loss = Number(e.target.value) || 0; });
+  return row;
+}
+
+function makeWallRow(procKey, p, space) {
+  var d = p.dims[space.id];
+  var row = document.createElement("div");
+  row.className = procKey === "wood" ? "wood-row" : "wall-row";
+  var html =
+    '<div class="name">' + esc(space.name) + '</div>' +
+    '<input type="number" inputmode="numeric" data-key="wallW" placeholder="가로" value="' + d.wallW + '">' +
+    '<input type="number" inputmode="numeric" data-key="wallH" placeholder="높이" value="' + d.wallH + '">';
+  if (procKey === "wood") {
+    html +=
+      '<select data-key="finish">' +
+        '<option value="gypsum"' + (d.finish==="gypsum"?" selected":"") + '>석고보드</option>' +
+        '<option value="mdf"' + (d.finish==="mdf"?" selected":"") + '>MDF</option>' +
+        '<option value="both"' + (d.finish==="both"?" selected":"") + '>석고+MDF</option>' +
+      '</select>' +
+      '<span class="wood-result">' + esc(formatWoodResult(d)) + '</span>';
+  }
+  row.innerHTML = html;
+
+  function refreshResultCell() {
+    if (procKey !== "wood") return;
+    var r = row.querySelector(".wood-result");
+    if (r) r.textContent = formatWoodResult(d);
+  }
+
+  row.querySelectorAll("input").forEach(function(inp) {
+    inp.addEventListener("input", function() {
+      var k = inp.getAttribute("data-key");
+      d[k] = Number(inp.value) || 0;
+      refreshResultCell();
+    });
+  });
+  var sel = row.querySelector("select");
+  if (sel) sel.addEventListener("change", function(e) {
+    d.finish = e.target.value;
+    refreshResultCell();
+  });
+  return row;
+}
+
+function buildOptionsSection(procKey) {
+  var p = state.proc[procKey];
+  var box = document.createElement("div");
+  var row = document.createElement("div");
+  row.className = "opts-row";
+
+  if (procKey === "wallpaper") {
+    row.innerHTML =
+      '<div class="field-group"><label>도배지 폭 mm</label><input type="number" data-k="rollW" value="' + p.rollW + '"></div>' +
+      '<div class="field-group"><label>롤 길이 m</label><input type="number" step="0.1" data-k="rollLen" value="' + p.rollLen + '"></div>';
+    box.appendChild(row);
+    bindOpts(box, p);
+    box.appendChild(hint("실크 도배지 기준 폭 1060mm(1m 보수) · 롤 15.6m · 둘레 = 가로/세로 기반"));
+    return box;
+  }
+
+  if (procKey === "floor") {
+    var brands = brandList();
+    var fp = FLOOR_PRODUCTS[p.productIdx];
+    if (!fp || fp.brand !== p.brand) {
+      var first = productsOfBrand(p.brand)[0];
+      if (first) p.productIdx = first.idx;
+      else { p.brand = brands[0]; p.productIdx = productsOfBrand(p.brand)[0].idx; }
+    }
+    var brandSel = '<select data-k="brand">';
+    brands.forEach(function(b) { brandSel += '<option value="' + esc(b) + '"' + (p.brand === b ? " selected" : "") + '>' + esc(b) + '</option>'; });
+    brandSel += '</select>';
+    var prodSel = '<select data-k="productIdx">';
+    productsOfBrand(p.brand).forEach(function(o) {
+      prodSel += '<option value="' + o.idx + '"' + (p.productIdx === o.idx ? " selected" : "") + '>' + esc(o.product.name) + ' (' + o.product.m2box + '㎡/박스)</option>';
+    });
+    prodSel += '</select>';
+    row.innerHTML =
+      '<div class="field-group"><label>브랜드</label>' + brandSel + '</div>' +
+      '<div class="field-group" style="grid-column:span 2"><label>제품</label>' + prodSel + '</div>';
+    box.appendChild(row);
+    row.querySelector('select[data-k="brand"]').addEventListener("change", function(e) {
+      p.brand = e.target.value;
+      var first = productsOfBrand(p.brand)[0];
+      if (first) p.productIdx = first.idx;
+      renderProcPanel();
+    });
+    row.querySelector('select[data-k="productIdx"]').addEventListener("change", function(e) {
+      p.productIdx = Number(e.target.value);
+      updateFloorPreview(box, p);
+    });
+    var preview = document.createElement("div");
+    preview.className = "floor-preview";
+    preview.setAttribute("data-floor-preview", "");
+    box.appendChild(preview);
+    updateFloorPreview(box, p);
+    box.appendChild(hint("적용 항목 면적 합산 → 로스 포함 박스 수"));
+    return box;
+  }
+
+  if (procKey === "tile") {
+    return null; // 옵션 영역 제거 — 모든 설정은 위 항목별 표에서
+  }
+
+  if (procKey === "brick") {
+    row.innerHTML =
+      '<div class="field-group"><label>쌓기 방식</label><select data-k="type">' +
+        '<option value="half"' + (p.type==="half"?" selected":"") + '>0.5B 반장쌓기</option>' +
+        '<option value="full"' + (p.type==="full"?" selected":"") + '>1.0B 한장쌓기</option>' +
+      '</select></div>' +
+      '<div class="field-group"><label>로스율 %</label><input type="number" data-k="loss" inputmode="numeric" value="' + p.loss + '"></div>';
+    box.appendChild(row);
+    bindOpts(box, p);
+    box.appendChild(hint("190×90×57 · 0.5B 74매/㎡ · 1.0B 148매/㎡ (줄눈 10mm 포함)"));
+    return box;
+  }
+
+  if (procKey === "cement") {
+    row.innerHTML =
+      '<div class="field-group"><label>두께 mm</label><input type="number" data-k="t" inputmode="numeric" value="' + p.t + '"></div>' +
+      '<div class="field-group"><label>포대 규격</label><select data-k="bag">' +
+        '<option value="25"' + (p.bag==25?" selected":"") + '>25kg</option>' +
+        '<option value="40"' + (p.bag==40?" selected":"") + '>40kg</option>' +
+      '</select></div>' +
+      '<div class="field-group"><label>로스율 %</label><input type="number" data-k="loss" inputmode="numeric" value="' + p.loss + '"></div>';
+    box.appendChild(row);
+    bindOpts(box, p);
+    box.appendChild(hint("항목면적 × 두께 × 1500kg/㎥ ÷ 포대 · 모르타르 별도"));
+    return box;
+  }
+
+  if (procKey === "wood") {
+    row.innerHTML =
+      '<div class="field-group"><label>새 항목 기본 마감재</label><select data-k="defaultFinish">' +
+        '<option value="gypsum"' + (p.defaultFinish==="gypsum"?" selected":"") + '>석고보드</option>' +
+        '<option value="mdf"' + (p.defaultFinish==="mdf"?" selected":"") + '>MDF</option>' +
+        '<option value="both"' + (p.defaultFinish==="both"?" selected":"") + '>석고 + MDF</option>' +
+      '</select></div>' +
+      '<div class="field-group"><label>다루끼 1본 길이 m</label><input type="number" step="0.1" data-k="lumberLen" value="' + p.lumberLen + '"></div>' +
+      '<div class="field-group"><label>1단당 본수</label><input type="number" data-k="bundleQty" value="' + p.bundleQty + '"></div>';
+    box.appendChild(row);
+    bindOpts(box, p);
+    box.appendChild(hint("위 표에서 항목별로 마감재(석고/MDF/양면) 선택 — 방=석고, 거실=MDF 같은 식 가능. 다루끼 450mm · 3-2 엇갈림 · 본 길이/1단 본수로 단 환산해 발주"));
+    return box;
+  }
+
+  if (procKey === "film") {
+    row.innerHTML =
+      '<div class="field-group"><label>필름 폭 mm</label><input type="number" data-k="filmW" value="' + p.filmW + '"></div>' +
+      '<div class="field-group"><label>롤 길이 m</label><input type="number" data-k="rollLen" value="' + p.rollLen + '"></div>';
+    box.appendChild(row);
+    bindOpts(box, p);
+    box.appendChild(hint("원단 폭 1220mm, 절단면 고려 1000mm 보수 · 항목 면적 = 시공 면적"));
+    return box;
+  }
+
+  return null;
+}
+
+function updateFloorPreview(box, p) {
+  var fp = FLOOR_PRODUCTS[p.productIdx];
+  if (!fp) return;
+  var el = box.querySelector("[data-floor-preview]");
+  if (!el) return;
+  var price = fp.price > 0 ? comma(fp.price) + "원/박스" : "가격 미공개";
+  el.innerHTML = '<b>' + esc(fp.brand) + ' · ' + esc(fp.name) + '</b><br>' +
+    fp.w + '×' + fp.l + '×' + fp.t + 'mm · ' + fp.m2box + '㎡/박스 · 로스 ' + fp.loss + '% · ' + price;
+}
+
+function hint(t) {
+  var d = document.createElement("div");
+  d.className = "opts-hint";
+  d.textContent = t;
+  return d;
+}
+
+function bindOpts(box, p) {
+  box.querySelectorAll("input[data-k], select[data-k]").forEach(function(inp) {
+    var k = inp.getAttribute("data-k");
+    if (k === "brand" || k === "productIdx") return;
+    var evt = inp.tagName === "SELECT" ? "change" : "input";
+    inp.addEventListener(evt, function() {
+      var v = inp.value;
+      if (inp.type === "number") p[k] = Number(v) || 0;
+      else if (inp.tagName === "SELECT" && /^-?\d+(\.\d+)?$/.test(v)) p[k] = Number(v);
+      else p[k] = v;
+    });
+  });
+}
+
+/* ════════ CALCULATION ════════ */
+function appliedSpaces(procKey) {
+  var p = state.proc[procKey];
+  return state.spaces.filter(function(s) { return p.applied[s.id]; });
+}
+
+function calc() {
+  var H = Number(document.getElementById("commonHeight").value) || 2400;
+  state.commonHeight = H;
+  var Hm = H / 1000;
+
+  // 공정별 자재 발주 항목 + 항목별 계산식
+  var byProc = {};
+  PROCESSES.forEach(function(m) { byProc[m.key] = []; });
+
+  // ── 1) 도배 ──
+  if (appliedSpaces("wallpaper").length > 0) {
+    var wp = state.proc.wallpaper;
+    var rollLen = Number(wp.rollLen) || 15.6;
+    var stripsPerRoll = Math.max(1, Math.floor(rollLen / Hm));
+    var totalRolls = 0;
+    var darLines = [];
+    appliedSpaces("wallpaper").forEach(function(s) {
+      var peri = calcPerimeter(s);
+      var strips = Math.ceil(peri / 1);
+      var rolls = Math.ceil(strips / stripsPerRoll);
+      totalRolls += rolls;
+      darLines.push(esc(s.name) + " 둘레 " + peri.toFixed(1) + "m ÷ 1m/줄 = " + strips + "줄 ÷ " + stripsPerRoll + "줄/롤 → <strong>" + rolls + "롤</strong>");
+    });
+    if (totalRolls > 0) byProc.wallpaper.push({
+      name:"실크 도배지", qty:totalRolls, unit:"롤",
+      meta:"1롤 = " + stripsPerRoll + "줄 (천장 " + Hm + "m) · 폭 1m 보수",
+      calcLines:darLines
+    });
+  }
+
+  // ── 2) 바닥재 ──
+  if (appliedSpaces("floor").length > 0) {
+    var fp = FLOOR_PRODUCTS[state.proc.floor.productIdx];
+    var totalBoxes = 0, totalAreaF = 0, totalCost = 0;
+    var flLines = [];
+    appliedSpaces("floor").forEach(function(s) {
+      var area = calcArea(s);
+      var needed = area * (1 + fp.loss/100);
+      var boxes = Math.ceil(needed / fp.m2box);
+      var cost = boxes * fp.price;
+      totalBoxes += boxes; totalAreaF += area; totalCost += cost;
+      var line = esc(s.name) + " " + area.toFixed(2) + "㎡ × " + (1 + fp.loss/100).toFixed(2) + " ÷ " + fp.m2box + "㎡/박스 = " + needed.toFixed(2) + " → <strong>" + boxes + "박스</strong>";
+      if (fp.price > 0) line += " · " + comma(cost) + "원";
+      flLines.push(line);
+    });
+    if (totalBoxes > 0) byProc.floor.push({
+      name: fp.brand + " · " + fp.name,
+      qty: totalBoxes, unit:"박스", verb:"로스 " + fp.loss + "% 포함",
+      price: fp.price > 0 ? totalCost : 0,
+      priceUnit: fp.price > 0 ? "박스당 " + comma(fp.price) + "원" : "",
+      meta: fp.w + "×" + fp.l + "×" + fp.t + "mm · 박스 " + fp.m2box + "㎡ · 시공 " + totalAreaF.toFixed(2) + "㎡ → 발주 " + (totalAreaF * (1 + fp.loss/100)).toFixed(2) + "㎡ (로스 포함)",
+      calcLines: flLines
+    });
+  }
+
+  // ── 3) 타일 (sizeIdx × mode 별 카드 분리 · 로스율은 항목별) ──
+  if (appliedSpaces("tile").length > 0) {
+    var tp = state.proc.tile;
+    var groups = {}; // (sizeIdx + "_" + mode) → group
+    appliedSpaces("tile").forEach(function(s) {
+      var perItem = tp.perItem[s.id] || { sizeIdx:2, mode:"floor", loss:10 };
+      if (perItem.sizeIdx == null) perItem.sizeIdx = 2;
+      if (perItem.mode == null) perItem.mode = "floor";
+      if (perItem.loss == null) perItem.loss = 10;
+      var sIdx = perItem.sizeIdx, mode = perItem.mode, lossT = perItem.loss;
+      var ts = TILE_SIZES[sIdx];
+      var tileArea = (ts.w/1000) * (ts.h/1000);
+      var floorArea = calcArea(s);
+      var wallArea = calcPerimeter(s) * Hm;
+      var area, lbl, formulaArea;
+      if (mode === "floor") { area = floorArea; lbl = "바닥"; formulaArea = "(바닥 " + area.toFixed(2) + "㎡)"; }
+      else if (mode === "wall") { area = wallArea; lbl = "벽"; formulaArea = "(둘레 " + calcPerimeter(s).toFixed(1) + "m × " + Hm + "m = " + area.toFixed(2) + "㎡)"; }
+      else { area = floorArea + wallArea; lbl = "통합"; formulaArea = "(바닥 " + floorArea.toFixed(2) + " + 벽 " + wallArea.toFixed(2) + " = " + area.toFixed(2) + "㎡)"; }
+      var pcs = Math.ceil(area / tileArea);
+      var pcsLoss = Math.ceil(pcs * (1 + lossT/100));
+      var boxes = ts.pcs > 0 ? Math.ceil(pcsLoss / ts.pcs) : null;
+      var key = sIdx + "_" + mode;
+      if (!groups[key]) groups[key] = { ts:ts, mode:mode, sIdx:sIdx, totalPcs:0, totalBoxes:0, totalArea:0, calcLines:[] };
+      groups[key].totalPcs += pcsLoss;
+      groups[key].totalArea += area;
+      if (boxes !== null) groups[key].totalBoxes += boxes;
+      var expr;
+      if (boxes !== null) {
+        expr = esc(s.name) + " " + formulaArea + " ÷ " + tileArea.toFixed(3) + "㎡/매 × " + (1+lossT/100).toFixed(2) + " (로스 " + lossT + "%) = " + pcsLoss + "매 ÷ " + ts.pcs + "매/박스 → <strong>" + boxes + "박스</strong>";
+      } else {
+        expr = esc(s.name) + " " + formulaArea + " ÷ " + tileArea.toFixed(3) + "㎡/매 × " + (1+lossT/100).toFixed(2) + " (로스 " + lossT + "%) → <strong>" + pcsLoss + "매</strong>";
+      }
+      groups[key].calcLines.push(expr);
+    });
+    var modeOrder = { floor:0, wall:1, both:2 };
+    var keys = Object.keys(groups).sort(function(a, b) {
+      var ga = groups[a], gb = groups[b];
+      if (modeOrder[ga.mode] !== modeOrder[gb.mode]) return modeOrder[ga.mode] - modeOrder[gb.mode];
+      return ga.sIdx - gb.sIdx;
+    });
+    keys.forEach(function(k) {
+      var g = groups[k];
+      var ts = g.ts;
+      var modeLabel = g.mode === "floor" ? "바닥" : g.mode === "wall" ? "벽" : "욕실통합";
+      var unit = ts.pcs > 0 ? "박스" : "매";
+      var qty = ts.pcs > 0 ? g.totalBoxes : g.totalPcs;
+      var meta = "시공 " + g.totalArea.toFixed(2) + "㎡";
+      if (ts.pcs > 0) meta += " · 발주 " + g.totalPcs + "매 (로스 포함, 박스당 " + ts.pcs + "매)";
+      byProc.tile.push({
+        cat: modeLabel,
+        name: "타일 " + ts.label,
+        qty: qty, unit: unit, verb:"로스 포함",
+        meta: meta,
+        calcLines: g.calcLines
+      });
+    });
+  }
+
+  // ── 4) 벽돌 ──
+  if (appliedSpaces("brick").length > 0) {
+    var bp = state.proc.brick;
+    var perM2 = bp.type === "half" ? 74 : 148;
+    var typeLabel = bp.type === "half" ? "0.5B 반장쌓기" : "1.0B 한장쌓기";
+    var totalPcsB = 0, totalWallAreaB = 0;
+    var brLines = [];
+    appliedSpaces("brick").forEach(function(s) {
+      var d = bp.dims[s.id] || { wallW:3000, wallH:state.commonHeight };
+      var area = (d.wallW/1000) * (d.wallH/1000);
+      var pcs = Math.ceil(area * perM2);
+      var pcsLoss = Math.ceil(pcs * (1 + bp.loss/100));
+      totalPcsB += pcsLoss; totalWallAreaB += area;
+      brLines.push(esc(s.name) + " 벽 " + d.wallW + "×" + d.wallH + "mm = " + area.toFixed(2) + "㎡ × " + perM2 + "매 × " + (1+bp.loss/100).toFixed(2) + " → <strong>" + pcsLoss + "매</strong>");
+    });
+    if (totalPcsB > 0) byProc.brick.push({
+      name:"시멘트벽돌 · " + typeLabel,
+      qty:totalPcsB, unit:"매", verb:"로스 " + bp.loss + "% 포함",
+      meta:"190×90×57 · " + perM2 + "매/㎡ · 벽 면적 " + totalWallAreaB.toFixed(2) + "㎡",
+      calcLines: brLines
+    });
+  }
+
+  // ── 5) 시멘트 ──
+  if (appliedSpaces("cement").length > 0) {
+    var cp = state.proc.cement;
+    var totalBags = 0, totalKg = 0, totalAreaC = 0;
+    var cmLines = [];
+    appliedSpaces("cement").forEach(function(s) {
+      var area = calcArea(s);
+      var vol = area * (cp.t/1000);
+      var kg = vol * 1500;
+      var kgLoss = kg * (1 + cp.loss/100);
+      var bags = Math.ceil(kgLoss / cp.bag);
+      totalBags += bags; totalKg += Math.ceil(kgLoss); totalAreaC += area;
+      cmLines.push(esc(s.name) + " " + area.toFixed(2) + "㎡ × " + cp.t + "mm × 1500kg/㎥ × " + (1+cp.loss/100).toFixed(2) + " ÷ " + cp.bag + "kg = " + Math.ceil(kgLoss) + "kg → <strong>" + bags + "포</strong>");
+    });
+    if (totalBags > 0) byProc.cement.push({
+      name: cp.bag + "kg 포대",
+      qty:totalBags, unit:"포", verb:"로스 " + cp.loss + "% 포함",
+      meta:"두께 " + cp.t + "mm · 1500kg/㎥ · 시공 " + totalAreaC.toFixed(2) + "㎡ · 발주 " + totalKg + "kg (로스 포함)",
+      calcLines: cmLines
+    });
+  }
+
+  // ── 6) 목작업 (다루끼 단 / 석고 / MDF 별도 카드) ──
+  if (appliedSpaces("wood").length > 0) {
+    var wd = state.proc.wood;
+    var lumberLen = wd.lumberLen > 0 ? wd.lumberLen : 3.6;
+    var bundleQty = wd.bundleQty > 0 ? wd.bundleQty : 50;
+    var totalDarukiM = 0, totalGyp = 0, totalMdf = 0, totalAreaW = 0;
+    var darLinesW = [], gypLines = [], mdfLines = [];
+    appliedSpaces("wood").forEach(function(s) {
+      var d = wd.dims[s.id] || { wallW:3000, wallH:state.commonHeight, finish: wd.defaultFinish || "gypsum" };
+      var finish = d.finish || wd.defaultFinish || "gypsum";
+      var Ww = d.wallW, Hh = d.wallH;
+      var vertCount = Math.ceil(Ww / 450) + 1;
+      var bays = vertCount - 1;
+      var oddBays = Math.ceil(bays / 2);
+      var evenBays = Math.floor(bays / 2);
+      var braceCount = (oddBays * 3) + (evenBays * 2);
+      var darukiM = +((vertCount * Hh/1000) + (2 * Ww/1000) + (braceCount * 0.45)).toFixed(1);
+      var area = (Ww * Hh)/1e6;
+      totalDarukiM += darukiM; totalAreaW += area;
+      darLinesW.push(esc(s.name) + " 벽 " + Ww + "×" + Hh + "mm → 수직 " + vertCount + "본×" + (Hh/1000).toFixed(2) + "m + 가로 2×" + (Ww/1000).toFixed(2) + "m + 보강 " + braceCount + "본×0.45m → <strong>" + darukiM.toFixed(1) + "m</strong>");
+      if (finish === "gypsum" || finish === "both") {
+        var gyp = Math.ceil(area / 1.62);
+        totalGyp += gyp;
+        gypLines.push(esc(s.name) + " 벽 " + area.toFixed(2) + "㎡ ÷ 1.62㎡/매 → <strong>" + gyp + "매</strong>" + (finish === "both" ? " (양면)" : ""));
+      }
+      if (finish === "mdf" || finish === "both") {
+        var mdf = Math.ceil(area / 1.62);
+        totalMdf += mdf;
+        mdfLines.push(esc(s.name) + " 벽 " + area.toFixed(2) + "㎡ ÷ 1.62㎡/매 → <strong>" + mdf + "매</strong>" + (finish === "both" ? " (양면)" : ""));
+      }
+    });
+    if (totalDarukiM > 0) {
+      var totalBons = Math.ceil(totalDarukiM / lumberLen);
+      var totalBundles = Math.ceil(totalBons / bundleQty);
+      var sumLine = "[합산] 총 길이 " + totalDarukiM.toFixed(1) + "m ÷ " + lumberLen + "m/본 = <strong>" + totalBons + "본</strong> ÷ " + bundleQty + "본/단 → <strong>" + totalBundles + "단</strong>";
+      byProc.wood.push({
+        cat:"각재",
+        name:"다루끼",
+        qty:totalBundles, unit:"단",
+        meta:"총 " + totalBons + "본 · 1본 " + lumberLen + "m · 1단 " + bundleQty + "본 · 길이 합 " + totalDarukiM.toFixed(1) + "m",
+        calcLines: darLinesW.concat([sumLine])
+      });
+    }
+    if (totalGyp > 0) byProc.wood.push({
+      cat:"마감",
+      name:"석고보드 900×1800",
+      qty:totalGyp, unit:"매",
+      meta:"1.62㎡/매 · 시공 벽 " + totalAreaW.toFixed(2) + "㎡",
+      calcLines: gypLines
+    });
+    if (totalMdf > 0) byProc.wood.push({
+      cat:"마감",
+      name:"MDF 900×1800",
+      qty:totalMdf, unit:"매",
+      meta:"1.62㎡/매 · 시공 벽 " + totalAreaW.toFixed(2) + "㎡",
+      calcLines: mdfLines
+    });
+  }
+
+  // ── 7) 필름 ──
+  if (appliedSpaces("film").length > 0) {
+    var fl = state.proc.film;
+    var filmWm = (fl.filmW || 1000) / 1000;
+    var rollLenF = fl.rollLen || 25;
+    var totalRollsF = 0, totalLenF = 0, totalAreaFilm = 0;
+    var fmLines = [];
+    appliedSpaces("film").forEach(function(s) {
+      var area = calcArea(s);
+      var needLen = area / filmWm;
+      var rolls = Math.ceil(needLen / rollLenF);
+      totalRollsF += rolls; totalLenF += needLen; totalAreaFilm += area;
+      fmLines.push(esc(s.name) + " " + area.toFixed(2) + "㎡ ÷ " + filmWm + "m/폭 = " + needLen.toFixed(1) + "m ÷ " + rollLenF + "m/롤 → <strong>" + rolls + "롤</strong>");
+    });
+    if (totalRollsF > 0) byProc.film.push({
+      name:"인테리어 필름",
+      qty:totalRollsF, unit:"롤",
+      meta:"1롤 " + rollLenF + "m · 폭 " + filmWm + "m · 시공 " + totalAreaFilm.toFixed(2) + "㎡ · 필요 " + totalLenF.toFixed(1) + "m",
+      calcLines: fmLines
+    });
+  }
+
+  renderResult(byProc);
+}
+
+function renderResult(byProc) {
+  var html = "";
+  html += '<div class="result-box">';
+  html += '<div class="result-section-title">📋 공종별 주문서</div>';
+
+  var anyResult = false;
+  PROCESSES.forEach(function(meta) {
+    var items = byProc[meta.key];
+    if (!items || items.length === 0) return;
+    anyResult = true;
+
+    html += '<div class="proc-group">';
+    html += '<div class="proc-group-title">' + esc(meta.name) + '</div>';
+
+    items.forEach(function(o) {
+      var catCls = "";
+      if (o.cat === "벽") catCls = " wall";
+      else if (o.cat === "욕실통합") catCls = " both";
+      else if (o.cat === "마감") catCls = " finish";
+
+      html += '<div class="order-item">';
+      html += '<div class="order-item-head">';
+      if (o.cat) html += '<span class="cat-tag' + catCls + '">' + esc(o.cat) + '</span>';
+      html += '<span class="order-item-name">' + esc(o.name) + '</span>';
+      html += '<span class="order-item-qty"><span class="v">' + o.qty + '</span>' + esc(o.unit) + '<span class="verb">' + esc(o.verb || '발주') + '</span></span>';
+      html += '</div>';
+
+      if (o.meta) html += '<div class="order-item-meta">' + esc(o.meta) + '</div>';
+      if (o.price && o.price > 0) {
+        html += '<div class="order-item-price">' + comma(o.price) + '원';
+        if (o.priceUnit) html += '<span class="per">(' + esc(o.priceUnit) + ')</span>';
+        html += '</div>';
+      }
+
+      if (o.calcLines && o.calcLines.length > 0) {
+        html += '<ul class="calc-list">';
+        o.calcLines.forEach(function(line) {
+          html += '<li>' + line + '</li>';
+        });
+        html += '</ul>';
+      }
+      html += '</div>';
+    });
+
+    html += '</div>';
+  });
+
+  if (!anyResult) html += '<div class="no-items">공정 탭에서 적용 항목을 1개 이상 체크한 뒤 계산하세요.</div>';
+  html += '</div>';
+
+  var resEl = document.getElementById("result");
+  resEl.innerHTML = html;
+  resEl.scrollIntoView({ behavior:"smooth", block:"start" });
+}
+
+function esc(v) {
+  if (v == null) return "-";
+  return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+function comma(n) { return (Number(n) || 0).toLocaleString("ko-KR"); }
+
+function init() {
+  renderSpaces();
+  renderTabs();
+  renderProcPanel();
+  document.getElementById("btnAddSpace").addEventListener("click", function() {
+    var n = state.spaces.length + 1;
+    state.spaces.push(makeSpace("항목 " + n, 3000, 3000));
+    renderSpaces();
+  });
+  document.getElementById("btnCalc").addEventListener("click", calc);
+  document.getElementById("commonHeight").addEventListener("input", function(e) {
+    state.commonHeight = Number(e.target.value) || 2400;
+  });
+  window.addEventListener("scroll", function() {
+    document.querySelector(".nav").style.boxShadow = window.scrollY > 10 ? "0 2px 20px rgba(0,0,0,.06)" : "none";
+  });
+}
+
+init();
+</script>
+</body>
+</html>
