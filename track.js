@@ -10,7 +10,7 @@
  */
 (function() {
   var SUPABASE_URL = "https://lmklxicrewgkgbhsikbw.supabase.co";
-  var SUPABASE_ANON_KEY = "PASTE_SUPABASE_ANON_PUBLIC_KEY_HERE";
+  var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxta2x4aWNyZXdna2diaHNpa2J3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMjQ2MjksImV4cCI6MjA4ODYwMDYyOX0.jbPjZ0KxY-nHZxEuVmHfxwFdHiFCBFdKtVNkt71fFtA";
 
   // 키 미설정 시 동작 안 함 (배포 후 1회 채우면 됨)
   if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.indexOf("PASTE") === 0) {
