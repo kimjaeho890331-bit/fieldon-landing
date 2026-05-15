@@ -1,0 +1,244 @@
+/* ──────────────────────────────────────────────────────────────────
+   Wanted Design System — Colors & Typography
+   Source: Wanted Design System (Community), Figma (CC BY 4.0).
+   ────────────────────────────────────────────────────────────────── */
+
+/* Fonts — Pretendard JP is the system's primary type family.
+   Wanted Sans is the brand display family.
+   Both ship as variable webfonts via the official Pretendard / Wanted Sans CDNs. */
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-jp.css");
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-jp.css");
+@import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.4/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
+
+:root {
+  /* ─── Atomic palette ─── coolNeutral is the spine of the system. */
+  --color-common-0:   #ffffff;
+  --color-common-100: #000000;
+
+  /* coolNeutral, % suffix (in figma named 5,7,10,15,17,22,23,25,30 …99) */
+  --color-coolNeutral-5:  #0b0d10;
+  --color-coolNeutral-7:  #101216;
+  --color-coolNeutral-10: #14191e; /* rgb(20,25,30) */
+  --color-coolNeutral-15: #1b1c1e;
+  --color-coolNeutral-17: #1f2024;
+  --color-coolNeutral-20: #17171a; /* rgb(23,23,25) — primary body text */
+  --color-coolNeutral-22: #2e2f33;
+  --color-coolNeutral-23: #25262a;
+  --color-coolNeutral-25: #37383c;
+  --color-coolNeutral-30: #46474f;
+  --color-coolNeutral-50: #70737c;
+  --color-coolNeutral-60: #8a8c93;
+  --color-coolNeutral-65: #989ba2;
+  --color-coolNeutral-70: #aeb0b6;
+  --color-coolNeutral-80: #c2c4c8;
+  --color-coolNeutral-90: #dbdcdf;
+  --color-coolNeutral-95: #e6e7e9;
+  --color-coolNeutral-96: #ebecee;
+  --color-coolNeutral-97: #f0f1f2;
+  --color-coolNeutral-98: #f4f4f5;
+  --color-coolNeutral-99: #f7f7f8;
+
+  /* Brand / accent atomics */
+  --color-blue-40:  #005eeb;
+  --color-blue-45:  #0066ff;     /* primary normal */
+  --color-blue-50:  #3385ff;
+  --color-blue-55:  #4d94ff;
+  --color-blue-60:  #6ba6ff;
+  --color-blue-65:  #8fbcff;
+  --color-blue-95:  #eaf2fe;
+
+  --color-violet-45: #6541f2;
+  --color-violet-50: #7c5ef5;
+  --color-violet-70: #b29bff;
+
+  --color-purple-40: #7a3ed1;
+  --color-purple-50: #9747ff;
+  --color-purple-60: #b577ff;
+  --color-purple-95: #f0ecfe;
+
+  --color-red-40:    #e62e2e;
+  --color-red-50:    #ff4242;
+  --color-red-60:    #ff6b6b;
+
+  --color-redOrange-48: #f24a2a;
+  --color-redOrange-50: #ff5a36;
+  --color-redOrange-60: #ff7c5c;
+
+  --color-orange-39: #d96b00;
+  --color-orange-50: #ff8a00;
+  --color-orange-60: #ffa64d;
+
+  --color-lime-37: #4c8a00;
+  --color-lime-50: #8acc1f;
+  --color-lime-60: #a8d957;
+
+  --color-green-40: #00993a;
+  --color-green-50: #00bf40;     /* status positive */
+  --color-green-60: #2dd66c;
+
+  --color-cyan-40:  #00788f;
+  --color-cyan-50:  #0098b2;
+  --color-cyan-60:  #2bb6cf;
+
+  --color-lightBlue-40: #007acc;
+  --color-lightBlue-50: #29a6ff;
+  --color-lightBlue-60: #5cbcff;
+
+  --color-pink-46: #d63a87;
+  --color-pink-50: #ff4a9d;
+  --color-pink-60: #ff77b6;
+
+  /* ─── Semantic — Light ─── */
+  --color-primary-normal:     var(--color-blue-45);
+  --color-primary-strong:     var(--color-blue-40);
+  --color-primary-heavy:      var(--color-blue-40);
+
+  --color-label-normal:       rgba(23, 23, 25, 1);
+  --color-label-strong:       #000000;
+  --color-label-neutral:      rgba(46, 47, 51, 0.88);
+  --color-label-alternative:  rgba(55, 56, 60, 0.61);
+  --color-label-assistive:    rgba(55, 56, 60, 0.28);
+  --color-label-disable:      rgba(55, 56, 60, 0.16);
+
+  --color-background-normal:        #ffffff;
+  --color-background-alternative:   var(--color-coolNeutral-99);
+  --color-background-elevated:      #ffffff;
+
+  --color-line-normal:        rgba(112, 115, 124, 0.22);
+  --color-line-neutral:       rgba(112, 115, 124, 0.16);
+  --color-line-alternative:   rgba(112, 115, 124, 0.08);
+  --color-line-strong:        rgba(112, 115, 124, 0.61);
+
+  --color-status-positive:    var(--color-green-50);
+  --color-status-cautionary:  var(--color-orange-50);
+  --color-status-negative:    var(--color-red-50);
+
+  --color-accent-redOrange:   var(--color-redOrange-50);
+  --color-accent-orange:      var(--color-orange-50);
+  --color-accent-lime:        var(--color-lime-50);
+  --color-accent-green:       var(--color-green-50);
+  --color-accent-cyan:        var(--color-cyan-50);
+  --color-accent-lightBlue:   var(--color-lightBlue-50);
+  --color-accent-blue:        var(--color-blue-45);
+  --color-accent-violet:      var(--color-violet-45);
+  --color-accent-purple:      var(--color-purple-40);
+  --color-accent-pink:        var(--color-pink-46);
+
+  --color-inverse-primary:    var(--color-blue-60);
+  --color-fill-normal:        rgba(112, 115, 124, 0.08);
+  --color-fill-strong:        rgba(112, 115, 124, 0.16);
+
+  /* ─── Shadows — emphasize / normal / strong ─── */
+  --shadow-normal-xsmall:  0px 1px 2px -1px rgba(23, 23, 23, 0.10);
+  --shadow-normal-small:   0px 4px 6px -1px rgba(23, 23, 23, 0.06), 0px 2px 4px -2px rgba(23, 23, 23, 0.06);
+  --shadow-normal-medium:  0px 10px 15px -3px rgba(23, 23, 23, 0.07), 0px 4px 6px -2px rgba(0, 0, 0, 0.07);
+  --shadow-normal-large:   0px 16px 24px -6px rgba(23, 23, 23, 0.08), 0px 6px 10px -4px rgba(23, 23, 23, 0.08);
+  --shadow-normal-xlarge:  0px 24px 38px -10px rgba(23, 23, 23, 0.12), 0px 10px 15px -5px rgba(23, 23, 23, 0.10);
+
+  --shadow-emphasize-small:  0px 2px 1px rgba(23, 23, 23, 0.03), 0px 4px 2.5px rgba(23, 23, 23, 0.03);
+  --shadow-emphasize-medium: 0px 4px 2px rgba(23, 23, 23, 0.035), 0px 10px 6px rgba(23, 23, 23, 0.035);
+  --shadow-emphasize-large:  0px 6px 3px rgba(23, 23, 23, 0.04),  0px 16px 9px rgba(23, 23, 23, 0.04);
+  --shadow-emphasize-xlarge: 0px 10px 5px rgba(23, 23, 23, 0.05), 0px 24px 14px rgba(23, 23, 23, 0.06);
+
+  /* ─── Radius scale (px) — observed across components ─── */
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --radius-3: 6px;
+  --radius-4: 8px;
+  --radius-5: 10px;
+  --radius-6: 12px;
+  --radius-8: 16px;
+  --radius-10: 20px;
+  --radius-12: 24px;
+  --radius-16: 32px;
+  --radius-32: 64px;
+  --radius-pill: 9999px;
+
+  /* ─── Spacing scale (px) — based on observed component spec ─── */
+  --space-0: 0px;
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 6px;
+  --space-4: 8px;
+  --space-5: 10px;
+  --space-6: 12px;
+  --space-7: 14px;
+  --space-8: 16px;
+  --space-9: 18px;
+  --space-10: 20px;
+  --space-12: 24px;
+  --space-16: 32px;
+  --space-20: 40px;
+  --space-24: 48px;
+  --space-32: 64px;
+  --space-48: 96px;
+  --space-64: 128px;
+
+  /* ─── Type families ─── */
+  --font-sans: "Pretendard JP", "Pretendard JP Variable", "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  --font-brand: "Wanted Sans Variable", "Wanted Sans", "Pretendard JP", system-ui, sans-serif;
+  --font-mono: "SF Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  /* ─── Type scale (18 hierarchies across 7 levels) ────────────────
+     Numbers match the Wanted Typography spec exactly.
+     Each step bundles font-size / line-height / letter-spacing. */
+
+  /* Display */
+  --t-display-2-size: 40px;  --t-display-2-lh: 52px;  --t-display-2-tracking: -0.0282em;
+  --t-display-3-size: 36px;  --t-display-3-lh: 48px;  --t-display-3-tracking: -0.0270em;
+
+  /* Title */
+  --t-title-1-size: 32px;    --t-title-1-lh: 44px;    --t-title-1-tracking: -0.0253em;
+  --t-title-2-size: 28px;    --t-title-2-lh: 38px;    --t-title-2-tracking: -0.0236em;
+  --t-title-3-size: 24px;    --t-title-3-lh: 32px;    --t-title-3-tracking: -0.0230em;
+
+  /* Heading */
+  --t-heading-1-size: 22px;  --t-heading-1-lh: 30px;  --t-heading-1-tracking: -0.0194em;
+  --t-heading-2-size: 20px;  --t-heading-2-lh: 28px;  --t-heading-2-tracking: -0.0120em;
+
+  /* Headline */
+  --t-headline-1-size: 18px; --t-headline-1-lh: 26px; --t-headline-1-tracking: -0.0020em;
+  --t-headline-2-size: 17px; --t-headline-2-lh: 24px; --t-headline-2-tracking: 0em;
+
+  /* Body */
+  --t-body-1n-size: 16px;    --t-body-1n-lh: 24px;    --t-body-1n-tracking: 0.0057em; /* Normal */
+  --t-body-1r-size: 16px;    --t-body-1r-lh: 26px;    --t-body-1r-tracking: 0.0057em; /* Reading */
+  --t-body-2n-size: 15px;    --t-body-2n-lh: 22px;    --t-body-2n-tracking: 0.0096em;
+  --t-body-2r-size: 15px;    --t-body-2r-lh: 24px;    --t-body-2r-tracking: 0.0096em;
+
+  /* Label */
+  --t-label-1n-size: 14px;   --t-label-1n-lh: 20px;   --t-label-1n-tracking: 0.0145em;
+  --t-label-1r-size: 14px;   --t-label-1r-lh: 22px;   --t-label-1r-tracking: 0.0145em;
+  --t-label-2-size: 13px;    --t-label-2-lh: 18px;    --t-label-2-tracking: 0.0194em;
+
+  /* Caption */
+  --t-caption-1-size: 12px;  --t-caption-1-lh: 16px;  --t-caption-1-tracking: 0.0252em;
+  --t-caption-2-size: 11px;  --t-caption-2-lh: 14px;  --t-caption-2-tracking: 0.0311em;
+}
+
+/* ─── Type utility classes ────────────────────────────────────────── */
+.t-display-2  { font: 700 var(--t-display-2-size)/var(--t-display-2-lh) var(--font-sans);   letter-spacing: var(--t-display-2-tracking); }
+.t-display-3  { font: 700 var(--t-display-3-size)/var(--t-display-3-lh) var(--font-sans);   letter-spacing: var(--t-display-3-tracking); }
+.t-title-1    { font: 700 var(--t-title-1-size)/var(--t-title-1-lh) var(--font-sans);       letter-spacing: var(--t-title-1-tracking); }
+.t-title-2    { font: 700 var(--t-title-2-size)/var(--t-title-2-lh) var(--font-sans);       letter-spacing: var(--t-title-2-tracking); }
+.t-title-3    { font: 700 var(--t-title-3-size)/var(--t-title-3-lh) var(--font-sans);       letter-spacing: var(--t-title-3-tracking); }
+.t-heading-1  { font: 600 var(--t-heading-1-size)/var(--t-heading-1-lh) var(--font-sans);   letter-spacing: var(--t-heading-1-tracking); }
+.t-heading-2  { font: 600 var(--t-heading-2-size)/var(--t-heading-2-lh) var(--font-sans);   letter-spacing: var(--t-heading-2-tracking); }
+.t-headline-1 { font: 600 var(--t-headline-1-size)/var(--t-headline-1-lh) var(--font-sans); letter-spacing: var(--t-headline-1-tracking); }
+.t-headline-2 { font: 600 var(--t-headline-2-size)/var(--t-headline-2-lh) var(--font-sans); letter-spacing: var(--t-headline-2-tracking); }
+.t-body-1n    { font: 500 var(--t-body-1n-size)/var(--t-body-1n-lh) var(--font-sans);       letter-spacing: var(--t-body-1n-tracking); }
+.t-body-1r    { font: 500 var(--t-body-1r-size)/var(--t-body-1r-lh) var(--font-sans);       letter-spacing: var(--t-body-1r-tracking); }
+.t-body-2n    { font: 500 var(--t-body-2n-size)/var(--t-body-2n-lh) var(--font-sans);       letter-spacing: var(--t-body-2n-tracking); }
+.t-body-2r    { font: 500 var(--t-body-2r-size)/var(--t-body-2r-lh) var(--font-sans);       letter-spacing: var(--t-body-2r-tracking); }
+.t-label-1n   { font: 500 var(--t-label-1n-size)/var(--t-label-1n-lh) var(--font-sans);     letter-spacing: var(--t-label-1n-tracking); }
+.t-label-1r   { font: 500 var(--t-label-1r-size)/var(--t-label-1r-lh) var(--font-sans);     letter-spacing: var(--t-label-1r-tracking); }
+.t-label-2    { font: 500 var(--t-label-2-size)/var(--t-label-2-lh) var(--font-sans);       letter-spacing: var(--t-label-2-tracking); }
+.t-caption-1  { font: 500 var(--t-caption-1-size)/var(--t-caption-1-lh) var(--font-sans);   letter-spacing: var(--t-caption-1-tracking); }
+.t-caption-2  { font: 500 var(--t-caption-2-size)/var(--t-caption-2-lh) var(--font-sans);   letter-spacing: var(--t-caption-2-tracking); }
+
+/* Brand display (Wanted Sans) — reserved for marketing hero and logo lock-ups */
+.t-brand      { font-family: var(--font-brand); font-weight: 700; letter-spacing: -0.022em; }
+
+/* Base */
+html { font-family: var(--font-sans); color: var(--color-label-normal); background: var(--color-background-normal); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
